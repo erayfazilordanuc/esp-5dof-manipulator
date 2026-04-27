@@ -1,5 +1,9 @@
 # ESP32 5-DOF Manipulator
 
+<p align="center">
+  <img src="cad/Assembly.png" width="500" alt="Mechanical Assembly">
+</p>
+
 This repository contains the firmware, hardware schematics, and mechanical overview for a custom 5-axis robotic arm. The system is built around an ESP32 C3 and a PCA9685 PWM driver, focusing on non-blocking network communication and structural stability during movement.
 
 ## Technical Implementation
@@ -12,6 +16,10 @@ Instead of a basic remote-control script, this project implements a few critical
 * **Soft-Start Homing Sequence:** To avoid brownouts caused by sudden inrush currents on boot, the system initializes with a low-speed homing routine, safely bringing all joints to a known 90-degree position before accepting external commands.
 
 ## Hardware Setup
+
+<p align="center">
+  <img src="docs/media/hardware_assembly.jpeg" width="500" alt="Hardware Integration">
+</p>
 
 * **Microcontroller:** ESP32 C3 Super Mini
 * **Actuator Driver:** Adafruit PCA9685 (I2C Address: 0x40)
@@ -27,6 +35,8 @@ The current firmware serves as a foundation for transitioning the manipulator in
 * Implementing MoveIt 2 for Inverse Kinematics (IK) and trajectory planning.
 
 ## Directory Structure
-* `/cad` - Mechanical assembly references.
-* `/docs` - Circuit diagrams and pinout references.
-* `/firmware` - Source code (main application and test routines).
+
+* `/cad` - Mechanical assembly references and print files.
+* `/docs` - Circuit diagrams, hardware photos, and pinout references.
+* `/firmware` - Source code (main application and custom class structures).
+* `/ros2_ws` - Workspace for upcoming ROS 2 integration.
