@@ -9,7 +9,7 @@ This repository contains the firmware, hardware schematics, and mechanical overv
 ## Physical Prototype
 
 <p align="center">
-  <img src="docs/media/full_assembly.jpg" width="400" alt="Fully Assembled Robot Arm">
+  <img src="docs/media/full_assembly.jpeg" width="400" alt="Fully Assembled Robot Arm">
 </p>
 
 The physical build utilizes 3D-printed PETG parts for the mechanical structure, providing a rigid frame to support the kinematic movements without excessive flex.
@@ -24,7 +24,7 @@ The physical build utilizes 3D-printed PETG parts for the mechanical structure, 
 ## Hardware Setup & Electronics
 
 <p align="center">
-  <img src="docs/media/electronics_base.jpg" width="400" alt="Electronics Integration">
+  <img src="docs/media/electronics_base.jpeg" width="400" alt="Electronics Integration">
 </p>
 
 * **Microcontroller:** ESP32 C3 Super Mini
