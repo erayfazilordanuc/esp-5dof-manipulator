@@ -1,24 +1,30 @@
 # ESP32 5-DOF Manipulator
 
 <p align="center">
-  <img src="cad/Assembly.png" width="500" alt="Mechanical Assembly">
+  <img src="cad/Assembly.png" width="400" alt="Mechanical Assembly (CAD)">
 </p>
 
 This repository contains the firmware, hardware schematics, and mechanical overview for a custom 5-axis robotic arm. The system is built around an ESP32 C3 and a PCA9685 PWM driver, focusing on non-blocking network communication and structural stability during movement.
 
-## Technical Implementation
+## Physical Prototype
 
-Instead of a basic remote-control script, this project implements a few critical systems to ensure smooth and reliable operation:
+<p align="center">
+  <img src="docs/media/full_assembly.jpg" width="400" alt="Fully Assembled Robot Arm">
+</p>
+
+The physical build utilizes 3D-printed PETG parts for the mechanical structure, providing a rigid frame to support the kinematic movements without excessive flex.
+
+## Technical Implementation
 
 * **Asynchronous Web Control:** The web server and WebSocket communication run asynchronously. The main MCU loop is dedicated entirely to calculating servo positions, which prevents motor jitter when network packets are received.
 * **Motion Profiling (`SmartServo`):** Moving all servos at their maximum default speed causes structural wobble and high current spikes. A custom C++ class assigns independent speed/step parameters to each joint. The load-bearing base moves slower, while the gripper operates faster.
 * **Hardware PWM Offloading:** Generating PWM signals directly from the ESP32 while handling Wi-Fi can lead to timer conflicts. This design offloads pulse generation to an external PCA9685 module via I2C, ensuring a clean, constant 50Hz signal.
 * **Soft-Start Homing Sequence:** To avoid brownouts caused by sudden inrush currents on boot, the system initializes with a low-speed homing routine, safely bringing all joints to a known 90-degree position before accepting external commands.
 
-## Hardware Setup
+## Hardware Setup & Electronics
 
 <p align="center">
-  <img src="docs/media/hardware_assembly.jpeg" width="500" alt="Hardware Integration">
+  <img src="docs/media/electronics_base.jpg" width="400" alt="Electronics Integration">
 </p>
 
 * **Microcontroller:** ESP32 C3 Super Mini
