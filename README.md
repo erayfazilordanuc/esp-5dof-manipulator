@@ -24,7 +24,7 @@ All structural components are 3D-printed in PETG to minimize flex under load whi
 ## Hardware & Electronics
 
 <p align="center">
-  <img src="./electronics/circuit_diagram.png" width="600" alt="Circuit Diagram">
+  <img src="electronics/circuit_diagram.png" width="600" alt="Circuit Diagram">
 </p>
 
 <p align="center">
