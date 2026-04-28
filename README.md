@@ -4,24 +4,19 @@
   <img src="docs/media/full_assembly.jpeg" width="500" alt="Physical Prototype">
 </p>
 
-A 5-axis robotic manipulator powered by an ESP32 and PCA9685. This project focuses on non-blocking network communication, kinematic stability, and hardware-level PWM offloading for jitter-free servo control.
+A custom-built 5-axis robotic manipulator. This project focuses on non-blocking network communication, kinematic stability, and hardware-level PWM offloading to achieve precise, jitter-free servo control.
 
-## System Design & CAD
+## ⚙️ Mechanical Design
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/7d4763a0-c3e8-4d4e-81aa-59ce54602eef" width="400" alt="Mechanical Assembly (CAD)">
 </p>
 
-All structural components are 3D-printed in PETG to minimize flex under load while keeping the overall assembly lightweight for the micro servos.
+All structural components are 3D-printed in PETG. This material was chosen to minimize mechanical flex under load and provide higher thermal resistance compared to standard PLA, maintaining a rigid frame while keeping the overall moving mass low.
 
-## Architecture Highlights
+## ⚡ Hardware Architecture & Component Selection
 
-* **Asynchronous Web Control:** WebSocket communication and web server operations run asynchronously. The main MCU loop is dedicated entirely to calculating kinematics and servo steps, preventing motor jitter during network traffic.
-* **Motion Profiling (`SmartServo`):** Driving servos at maximum default speed causes structural wobble and high current spikes. A custom `SmartServo` C++ class implements independent speed and step-delay parameters for each joint.
-* **Hardware PWM Offloading:** To avoid timer conflicts between Wi-Fi interrupts and PWM generation, signal processing is offloaded to an external PCA9685 module via I2C, ensuring a stable 50Hz signal.
-* **Soft-Start Homing:** The firmware executes a low-speed homing routine on boot. This safely drives all joints to a known 90-degree position, preventing brownouts from sudden inrush currents.
-
-## Hardware & Electronics
+Rather than connecting actuators directly to the microcontroller, this project utilizes a dedicated power and signal distribution architecture to ensure system stability.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b1373e59-2dc7-416f-b129-d10f7a266556" width="600" alt="Circuit Diagram">
@@ -31,13 +26,19 @@ All structural components are 3D-printed in PETG to minimize flex under load whi
   <img src="docs/media/electronics_base.jpeg" width="500" alt="Electronics Integration">
 </p>
 
-* **Microcontroller:** ESP32 (WROOM-32)
-* **Actuator Driver:** Adafruit PCA9685 (I2C Address: `0x40`)
-* **Actuators:** 5x MG90S Metal Gear Micro Servos
-* **Power Supply:** XL4015 DC-DC Buck Converter (Stepped down to `5.0V`)
-* **Filtering:** 100µF and 1mF decoupling capacitors across the power rails to suppress inductive spikes.
+* **Microcontroller (ESP32 WROOM-32):** Selected for its built-in Wi-Fi capabilities and dual-core architecture, allowing network tasks to run independently without blocking motion calculations.
+* **PWM Offloading (Adafruit PCA9685):** Generating PWM signals directly from the ESP32 while handling Wi-Fi interrupts often leads to signal jitter (mechanical twitching/oscillation). The PCA9685 offloads this task via I2C (`0x40`), generating a rock-solid, uninterrupted 50Hz hardware PWM signal for flawless servo rotation.
+* **Voltage Regulation (XL4015 DC-DC Buck):** Servos draw high peak currents under heavy loads. The XL4015 safely steps down the unregulated battery voltage to a stable `5.0V`. This protects the delicate ESP32 logic and the servo motors from overvoltage, while providing enough current capacity to prevent system reboots.
+* **Actuators (5x MG90S):** Metal gear micro servos were chosen over standard nylon gears (SG90) for their superior torque and durability without increasing the mechanical footprint.
+* **Power Filtering:** 100µF and 1mF decoupling capacitors are placed across the power rails to absorb inductive spikes caused by motor stalls, ensuring clean power delivery to the MCU.
 
-## Getting Started
+## 💻 Firmware Implementation
+
+* **Asynchronous Web Control:** WebSocket communication and web server operations run asynchronously (`ESPAsyncWebServer`). The main loop is dedicated entirely to calculating kinematics, preventing motion lag during heavy network traffic.
+* **Custom Motion Profiling (`SmartServo`):** Standard libraries drive servos to their target at maximum speed, causing severe structural wobble. The custom `SmartServo` C++ class implements independent speed and step-delay parameters. This allows the load-bearing base to move smoothly and slowly, while the gripper can react instantly.
+* **Soft-Start Homing:** On boot, a low-speed homing routine safely drives all joints to a neutral 90-degree position. This prevents the massive inrush current spike that occurs when 5 servos wake up at maximum draw simultaneously.
+
+## 🚀 Getting Started
 
 ### Prerequisites
 * [PlatformIO](https://platformio.org/) or Arduino IDE
@@ -53,16 +54,16 @@ All structural components are 3D-printed in PETG to minimize flex under load whi
    cd esp-5dof-manipulator/firmware
    ```
 3. Copy `secrets_example.h` to `secrets.h` and configure your Wi-Fi credentials.
-4. Build and flash to your ESP32.
+4. Build and flash the firmware to your ESP32.
 
-## Upcoming Work: ROS 2 Integration
+## 🌐 Upcoming Work: ROS 2 Integration
 
 This firmware serves as the low-level hardware interface for a future autonomous setup. Planned updates:
-* micro-ROS integration to bridge the ESP32 with a host machine.
-* URDF model generation for the physical system.
-* MoveIt 2 integration for Inverse Kinematics (IK) and trajectory planning.
+* **micro-ROS:** Bridging the ESP32 with a host machine.
+* **URDF:** Generating an accurate physical model for simulations.
+* **MoveIt 2:** Integrating Inverse Kinematics (IK) and trajectory planning.
 
-## Directory Structure
+## 📂 Directory Structure
 
 * `/cad` - Mechanical assembly references, STEP files, and print-ready STLs.
 * `/electronics` - Circuit schematics and wiring diagrams.
