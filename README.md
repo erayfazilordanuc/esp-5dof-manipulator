@@ -9,7 +9,7 @@ A 5-axis robotic manipulator powered by an ESP32 and PCA9685. This project focus
 ## System Design & CAD
 
 <p align="center">
-  <img src="cad/assembly.png" width="500" alt="Mechanical Assembly (CAD)">
+  <img src="https://github.com/user-attachments/assets/7d4763a0-c3e8-4d4e-81aa-59ce54602eef" width="500" alt="Mechanical Assembly (CAD)">
 </p>
 
 All structural components are 3D-printed in PETG to minimize flex under load while keeping the overall assembly lightweight for the micro servos.
@@ -24,7 +24,7 @@ All structural components are 3D-printed in PETG to minimize flex under load whi
 ## Hardware & Electronics
 
 <p align="center">
-  <img src="electronics/circuit_diagram.png" width="600" alt="Circuit Diagram">
+  <img src="https://github.com/user-attachments/assets/b1373e59-2dc7-416f-b129-d10f7a266556" width="600" alt="Circuit Diagram">
 </p>
 
 <p align="center">
