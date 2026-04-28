@@ -1,20 +1,22 @@
 # ESP32 5-DOF Manipulator
 
 <p align="center">
-  <img src="cad/Assembly.png" width="400" alt="Mechanical Assembly (CAD)">
+  <img src="docs/media/full_assembly.jpg" width="500" alt="Physical Prototype">
 </p>
 
 This repository contains the firmware, hardware schematics, and mechanical overview for a custom 5-axis robotic arm. The system is built around an ESP32 C3 and a PCA9685 PWM driver, focusing on non-blocking network communication and structural stability during movement.
 
-## Physical Prototype
+## System Design & CAD
 
 <p align="center">
-  <img src="docs/media/full_assembly.jpeg" width="400" alt="Fully Assembled Robot Arm">
+  <img src="cad/Assembly.png" width="500" alt="Mechanical Assembly (CAD)">
 </p>
 
-The physical build utilizes 3D-printed PETG parts for the mechanical structure, providing a rigid frame to support the kinematic movements without excessive flex.
+The mechanical structure was designed with kinematic stability in mind, utilizing 3D-printed PETG parts to ensure a rigid frame while maintaining a lightweight profile for the servos.
 
 ## Technical Implementation
+
+Instead of a basic remote-control script, this project implements a few critical systems to ensure smooth and reliable operation:
 
 * **Asynchronous Web Control:** The web server and WebSocket communication run asynchronously. The main MCU loop is dedicated entirely to calculating servo positions, which prevents motor jitter when network packets are received.
 * **Motion Profiling (`SmartServo`):** Moving all servos at their maximum default speed causes structural wobble and high current spikes. A custom C++ class assigns independent speed/step parameters to each joint. The load-bearing base moves slower, while the gripper operates faster.
@@ -24,7 +26,7 @@ The physical build utilizes 3D-printed PETG parts for the mechanical structure, 
 ## Hardware Setup & Electronics
 
 <p align="center">
-  <img src="docs/media/electronics_base.jpeg" width="400" alt="Electronics Integration">
+  <img src="docs/media/electronics_base.jpg" width="500" alt="Electronics Integration">
 </p>
 
 * **Microcontroller:** ESP32 C3 Super Mini
