@@ -26,7 +26,7 @@ Instead of a basic remote-control script, this project implements a few critical
 ## Hardware Setup & Electronics
 
 <p align="center">
-  <img src="electronics/Circuit_Diagram.png" width="600" alt="Circuit Diagram">
+  <img src="electronics/Circuit Diagram.png" width="600" alt="Circuit Diagram">
 </p>
 
 <p align="center">
