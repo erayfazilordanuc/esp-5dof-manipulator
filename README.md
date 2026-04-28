@@ -47,7 +47,7 @@ Rather than connecting actuators directly to the microcontroller, this project u
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/erayfazilordanuc/esp-5dof-manipulator.git](https://github.com/erayfazilordanuc/esp-5dof-manipulator.git)
+   git clone https://github.com/erayfazilordanuc/esp-5dof-manipulator.git
    ```
 2. Navigate to the firmware directory:
    ```bash
