@@ -1,7 +1,7 @@
 # ESP32 5-DOF Manipulator
 
 <p align="center">
-  <img src="docs/media/full_assembly.jpg" width="500" alt="Physical Prototype">
+  <img src="docs/media/full_assembly.jpeg" width="500" alt="Physical Prototype">
 </p>
 
 This repository contains the firmware, hardware schematics, and mechanical overview for a custom 5-axis robotic arm. The system is built around an ESP32 C3 and a PCA9685 PWM driver, focusing on non-blocking network communication and structural stability during movement.
@@ -26,7 +26,7 @@ Instead of a basic remote-control script, this project implements a few critical
 ## Hardware Setup & Electronics
 
 <p align="center">
-  <img src="docs/media/electronics_base.jpg" width="500" alt="Electronics Integration">
+  <img src="docs/media/electronics_base.jpeg" width="500" alt="Electronics Integration">
 </p>
 
 * **Microcontroller:** ESP32 C3 Super Mini
