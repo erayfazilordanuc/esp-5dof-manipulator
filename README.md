@@ -45,6 +45,7 @@ The current firmware serves as a foundation for transitioning the manipulator in
 ## Directory Structure
 
 * `/cad` - Mechanical assembly references and print files.
-* `/docs` - Circuit diagrams, hardware photos, and pinout references.
+* `/electronics` - Circuit schematics and hardware wiring diagrams.
+* `/docs` - Project media, hardware integration photos, and datasheets.
 * `/firmware` - Source code (main application and custom class structures).
 * `/ros2_ws` - Workspace for upcoming ROS 2 integration.
