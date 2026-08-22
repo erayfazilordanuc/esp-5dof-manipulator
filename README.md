@@ -11,7 +11,7 @@ computer involved.
 
 The firmware is called ArmPilot. The arm is driven by hobby servos, which report nothing
 back — no encoder, no current sense, no way to ask one where it is. Three problems follow
-from that, and most of the firmware is an answer to one of them:
+from that, and most of the design is an answer to one of them:
 
 - A servo that has just been powered up slams to whatever pulse width reaches it first, so
   firmware that attaches and writes an angle in the same breath makes the arm jump on boot.
@@ -19,6 +19,82 @@ from that, and most of the firmware is an answer to one of them:
   buzzing and see as twitching.
 - Commanding a servo straight to its target makes it accelerate as hard as it can, which on
   a printed arm shows up as wobble on departure and overshoot on arrival.
+
+## Mechanics
+
+<p align="center">
+  <img src="cad/renders/assembly.png" height="300" alt="CAD assembly">
+  <img src="cad/renders/assembly_section.png" height="300" alt="Section view">
+</p>
+
+Everything structural is printed in PETG rather than PLA, to keep flex under load down and to
+survive the heat that builds up around servos in a sealed base. The section view was the
+working drawing for servo clearance, cable routing and wall thickness. The base is a closed
+cylinder carrying the electronics and battery, which puts the heaviest parts at the bottom
+and keeps the arm planted when the elbow is fully extended.
+
+<p align="center">
+  <img src="docs/media/full_assembly_side.jpeg" height="330" alt="Printed arm, extended">
+</p>
+
+Print-ready STLs are in [`cad/print_files/`](cad/print_files/) (base housing and lid, J1–J4
+links, the parallel gripper drivetrain, and a pre-arranged build plate), editable Fusion 360
+sources in [`cad/source/`](cad/source/). Superseded v1 parts are kept in
+[`cad/print_files/v1/`](cad/print_files/v1/).
+
+The browser draws the arm from link lengths the board sends on connect, so changing the
+mechanics means editing one struct: base radius 62 mm, floor to shoulder 105 mm, shoulder to
+elbow 110 mm, elbow to wrist 95 mm, wrist to gripper tip 72 mm.
+
+## Electronics
+
+<p align="center">
+  <img src="electronics/circuit_diagram.png" width="760" alt="Circuit diagram">
+</p>
+
+All five PWM channels come from a PCA9685 at I²C address `0x40` rather than from the ESP32
+itself. Generating pulses in software while the same chip services Wi-Fi interrupts produces
+jitter you can hear; the PCA9685 makes them in dedicated hardware at 50 Hz, and the ESP32
+only writes a pulse width over the bus at 400 kHz.
+
+Power comes from two 18650 cells in series through a rocker switch and a single XL4015 buck
+converter, which feeds the ESP32 and the servo rail in parallel. 100 µF sits on the logic
+side and 1000 µF across the servo rail to absorb the spike a stalled motor throws back. It
+is still one rail, so a hard stall can drag the logic down with it, which is the failure
+described in [When the servos go limp](#when-the-servos-go-limp). Separating the two is the
+next revision: [`circuit_diagram_v2.png`](electronics/circuit_diagram_v2.png) gives the
+servos a dedicated 8 A XL4016E1, and
+[`circuit_diagram_v2_with_bms.png`](electronics/circuit_diagram_v2_with_bms.png) adds a 2S
+BMS and USB-C charging on top of that.
+
+| Qty | Part | Notes |
+|---|---|---|
+| 1 | ESP32-WROOM-32 devkit, 30-pin | Wi-Fi and two cores |
+| 1 | Adafruit PCA9685 | 16-channel 12-bit PWM, I²C `0x40` |
+| 3 | MG90S servo | Base, shoulder, elbow |
+| 2 | SG90 servo | Wrist and gripper |
+| 1 | XL4015 buck converter | Shared 5 V rail |
+| 2 | 18650 Li-ion and holder | In series, about 7.4 V nominal |
+| 1 each | 100 µF / 1000 µF electrolytic | Logic side / servo rail |
+| 2 | Rocker / slide switch | Master and logic cut-off |
+
+Any 50 Hz hobby servo works in place of these; trim each axis with `usMin` and `usMax` in the
+joint table.
+
+`GPIO21` and `GPIO22` carry I²C to the PCA9685 `SDA`/`SCL` and `3V3` feeds its logic. `VIN`
+reaches the ESP32 through the slide switch and the 100 µF, servo `V+` comes off the same
+converter output through the 1000 µF, and grounds are common throughout.
+
+<p align="center">
+  <img src="docs/media/electronics_base.jpeg" width="430" alt="Electronics stack in the base">
+</p>
+
+The whole stack sits on the base plate and closes inside the base cylinder.
+
+<p align="center">
+  <img src="docs/media/electronics_base_front.jpeg" height="230" alt="Front view">
+  <img src="docs/media/electronics_base_top.jpeg" height="230" alt="Top view">
+</p>
 
 ## Motion control
 
@@ -65,9 +141,8 @@ limits live in [`config.cpp`](firmware/src/config.cpp):
 | Gripper | 4 | 0–180° | 60° | 60° | 130 °/s | 260 °/s² | 1800 °/s³ |
 
 Profile generation runs in its own FreeRTOS task pinned to core 1 at priority 3 with a fixed
-period, while networking runs on the other core. Saturating the WebSocket does not change
-how the arm moves. PWM generation itself is offloaded to a PCA9685 over I²C, so the pulse
-train comes from dedicated hardware regardless of what the ESP32 is doing.
+period, while networking runs on the other core. Saturating the WebSocket does not change how
+the arm moves, which is why the dual-core part was worth it.
 
 ## Starting up without the jump
 
@@ -135,75 +210,6 @@ The board answers with a `hello` frame carrying geometry, joint limits, IP and t
 the last reset, a `cal` frame re-broadcast whenever calibration changes, and a 20 Hz state
 packet.
 
-## Mechanics
-
-<p align="center">
-  <img src="cad/renders/assembly.png" height="300" alt="CAD assembly">
-  <img src="cad/renders/assembly_section.png" height="300" alt="Section view">
-</p>
-
-Everything structural is printed in PETG rather than PLA, to keep flex under load down and to
-survive the heat that builds up around servos in a sealed base. The section view was the
-working drawing for servo clearance, cable routing and wall thickness. The base is a closed
-cylinder carrying the electronics and battery, which puts the heaviest parts at the bottom
-and keeps the arm planted when the elbow is fully extended.
-
-<p align="center">
-  <img src="docs/media/full_assembly_side.jpeg" height="330" alt="Printed arm, extended">
-</p>
-
-Print-ready STLs are in [`cad/print_files/`](cad/print_files/) (base housing and lid, J1–J4
-links, the parallel gripper drivetrain, and a pre-arranged build plate), editable Fusion 360
-sources in [`cad/source/`](cad/source/). Superseded v1 parts are kept in
-[`cad/print_files/v1/`](cad/print_files/v1/).
-
-The browser draws the arm from link lengths the board sends on connect, so changing the
-mechanics means editing one struct: base radius 62 mm, floor to shoulder 105 mm, shoulder to
-elbow 110 mm, elbow to wrist 95 mm, wrist to gripper tip 72 mm.
-
-## Electronics
-
-<p align="center">
-  <img src="electronics/circuit_diagram.png" width="760" alt="Circuit diagram">
-</p>
-
-Nothing is driven from the microcontroller directly. Two separate buck converters run off the
-same battery, an XL4015 feeding the ESP32 and an 8 A XL4016E1 feeding the servo rail, so
-servo inrush never reaches the logic supply. 100 µF sits across the ESP32 rail and 1000 µF
-across the servo rail to absorb the spike a stalled motor throws back. A variant with a 2S
-BMS and USB-C charging is in
-[`circuit_diagram_with_bms.png`](electronics/circuit_diagram_with_bms.png).
-
-| Qty | Part | Notes |
-|---|---|---|
-| 1 | ESP32-WROOM-32 devkit, 30-pin | Wi-Fi and two cores |
-| 1 | Adafruit PCA9685 | 16-channel 12-bit PWM, I²C `0x40` |
-| 3 | MG996R servo | Base, shoulder, elbow |
-| 2 | MG90S servo | Wrist and gripper |
-| 1 | XL4015 buck converter | Logic rail |
-| 1 | XL4016E1 8 A buck converter | Servo rail |
-| 2 | 18650 Li-ion and holder | In series, about 7.4 V nominal |
-| 1 each | 100 µF / 1000 µF electrolytic | ESP32 rail / servo rail |
-| 2 | Toggle / slide switch | Master and logic cut-off |
-
-Any 50 Hz hobby servo works in place of these; trim each axis with `usMin` and `usMax` in the
-joint table.
-
-`GPIO21` and `GPIO22` carry I²C to the PCA9685 `SDA`/`SCL`, `3V3` feeds its logic, and `VIN`
-comes from the XL4015 through the switch and the 100 µF. Grounds are common across both
-rails. Servo power reaches the `V+` terminal from the XL4016E1, not from the logic pins.
-
-<p align="center">
-  <img src="docs/media/electronics_base.jpeg" width="430" alt="Electronics stack in the base">
-</p>
-
-The whole stack sits on the base plate and closes inside the base cylinder.
-
-<p align="center">
-  <img src="docs/media/electronics_base_front.jpeg" height="230" alt="Front view">
-  <img src="docs/media/electronics_base_top.jpeg" height="230" alt="Top view">
-</p>
-
 ## Build and flash
 
 You need [PlatformIO](https://platformio.org/). Dependencies resolve from `platformio.ini`.
@@ -226,18 +232,18 @@ password `armpilot1`, at `http://192.168.4.1`. On your own network `http://armpi
 works over mDNS. The servos come up free by design; press engage in the UI to energise them.
 
 Tuning is split between two files. `firmware/include/config.h` holds the AP fallback, I²C
-pins, control rate and boot behaviour. `firmware/src/config.cpp` holds the joint table,
-link geometry and calibration defaults. Both are pushed to the browser on connect, so there
-is nothing to keep in sync on the UI side.
+pins, control rate and boot behaviour. `firmware/src/config.cpp` holds the joint table, link
+geometry and calibration defaults. Both are pushed to the browser on connect, so there is
+nothing to keep in sync on the UI side.
 
 ## When the servos go limp
 
 Almost always the ESP32 has reset: outputs shut off, torque disappears, the arm sags. The
 cause is captured on boot and shown on serial and in the UI as `BROWNOUT`, `PANIC` or
-`WATCHDOG`. Brownout is the usual answer, and the fix is a separate 5–6 V supply for the
-servos with grounds tied together and 1000 µF across the rail. `ENGAGE_STAGGER_MS` already
-spreads out the start-up current, but peak current during a move is a question of how much
-the supply can deliver.
+`WATCHDOG`. Brownout is the usual answer on a shared rail: give the servos their own 5–6 V
+supply, tie the grounds together, and keep 1000 µF across the rail. `ENGAGE_STAGGER_MS`
+already spreads out the start-up current, but peak current during a move is a question of
+how much the supply can deliver.
 
 ## Repository layout
 
