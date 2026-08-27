@@ -33,12 +33,13 @@ const ArmGeometry GEOMETRY = {
 //    eklem_acisi = wRef + gain*(servo - sRef)
 //  Asagidaki sRef degerleri kol DIMDIK YUKARI dururken olculen servo
 //  acilaridir; o pozda omuzun dunya acisi 90, dirsek ve bilek ise uzuvlar
-//  ayni dogrultuda oldugu icin 0'dir. gain = +1 -> dogrudan tahrik, duz yon.
+//  ayni dogrultuda oldugu icin 0'dir. |gain| = 1 -> dogrudan tahrik; isaret
+//  yonu tasir: bilek servosu ters monte oldugu icin -1.
 //  Arayuzdeki KALIBRASYON MODU bu tabloyu ezip NVS'e yazar.
 // ---------------------------------------------------------------------------
 //                sRef    wRef    gain
 const JointCal CAL_DEFAULT[3] = {
     {53.4f, 90.0f, +1.0f},  // Omuz   (dunya acisi)
     {156.4f, 0.0f, +1.0f},  // Dirsek (bir onceki uzva gore)
-    {101.5f, 0.0f, +1.0f}   // Bilek  (bir onceki uzva gore)
+    {101.5f, 0.0f, -1.0f}   // Bilek  (bir onceki uzva gore) - ters monte
 };

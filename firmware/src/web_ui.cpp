@@ -322,12 +322,13 @@ kbd{display:inline-block;padding:2px 6px;margin:0 1px;border-radius:5px;border:1
   <header>
     <div class="brand"><i>&#9670;</i>ARM<b>PILOT</b><small id="fwv"></small></div>
     <div class="spacer"></div>
-    <span class="badge" id="bRst" title="Son acilis sebebi / reset sayaci">&#10227; --</span>
+    <span class="badge" id="bRst" data-i18n-title="badge.rst.title">&#10227; --</span>
     <span class="badge" id="bMove" role="status" aria-live="polite">&#8226; DURGUN</span>
     <span class="badge" id="bState" role="status" aria-live="polite">--</span>
     <span class="badge" id="bLink" role="status" aria-live="polite">BAGLANIYOR</span>
-    <button class="tg" id="btnTheme" title="Temayi degistir">&#9788; ACIK</button>
-    <button class="estop" id="btnEstop" title="Kisayol: Space">ACIL STOP</button>
+    <button class="tg" id="btnLang">EN</button>
+    <button class="tg" id="btnTheme">&#9788; ACIK</button>
+    <button class="estop" id="btnEstop" data-i18n-title="estop.title">ACIL STOP</button>
   </header>
 
   <div class="notice" id="notice" role="status" aria-live="polite">
@@ -339,101 +340,101 @@ kbd{display:inline-block;padding:2px 6px;margin:0 1px;border-radius:5px;border:1
     <!-- ================= YAN GORUNUS ================= -->
     <section class="panel">
       <div class="ph">
-        <span class="dot"></span><h2>Kol Duzlemi &mdash; Yan Gorunus</h2>
+        <span class="dot"></span><h2 data-i18n="side.title">Kol Duzlemi &mdash; Yan Gorunus</h2>
         <span class="hint" id="sideHint">Eklemi veya ucu surukle</span>
       </div>
       <div class="pb"><svg id="side" preserveAspectRatio="xMidYMid meet"></svg></div>
       <div class="legend" id="sideLegend" hidden>
-        <span><i class="sw-model"></i>model kol &mdash; yazilimin sandigi duruş</span>
-        <span><i class="sw-match"></i>turuncu kol &mdash; senin esledigin gercek duruş</span>
-        <span class="note">Surukleyince TURUNCU kol oynar. Gercek kolu oynatmak icin
+        <span data-i18n-html="legend.model"><i class="sw-model"></i>model kol &mdash; yazilimin sandigi duruş</span>
+        <span data-i18n-html="legend.match"><i class="sw-match"></i>turuncu kol &mdash; senin esledigin gercek duruş</span>
+        <span class="note" data-i18n-html="legend.note">Surukleyince TURUNCU kol oynar. Gercek kolu oynatmak icin
           asagidaki <b>kaydiricilar</b>.</span>
       </div>
       <div class="tools">
-        <button class="tg on" id="tgLevel">KISKAC YATAY</button>
+        <button class="tg on" id="tgLevel" data-i18n="tg.level">KISKAC YATAY</button>
         <button class="tg" id="tgElbow">DIRSEK: YUKARI</button>
-        <button class="tg" id="tgGhost">HEDEF IZI</button>
-        <span class="rd">UC: X <b id="rdX">0</b> Y <b id="rdY">0</b> mm</span>
+        <button class="tg" id="tgGhost" data-i18n="tg.ghost">HEDEF IZI</button>
+        <span class="rd"><span data-i18n="rd.tip">UC:</span> X <b id="rdX">0</b> Y <b id="rdY">0</b> mm</span>
       </div>
     </section>
 
     <div class="col">
       <!-- ================= UST GORUNUS ================= -->
       <section class="panel">
-        <div class="ph"><span class="dot"></span><h2>Taban Donusu</h2><span class="hint">Cevir</span></div>
+        <div class="ph"><span class="dot"></span><h2 data-i18n="top.title">Taban Donusu</h2><span class="hint" data-i18n="top.hint">Cevir</span></div>
         <div class="pb"><svg id="top" viewBox="0 0 260 175" preserveAspectRatio="xMidYMid meet"></svg></div>
       </section>
 
       <!-- ================= KISKAC ================= -->
       <section class="panel">
-        <div class="ph"><span class="dot"></span><h2>Kiskac</h2><span class="hint" id="gripHint">--</span></div>
+        <div class="ph"><span class="dot"></span><h2 data-i18n="grip.title">Kiskac</h2><span class="hint" id="gripHint">--</span></div>
         <div class="pb"><svg id="grip" viewBox="0 0 260 122" preserveAspectRatio="xMidYMid meet"></svg></div>
         <div class="grip-wrap"><input type="range" id="gripRange" min="0" max="180" step="1" value="60"
-             aria-label="Kiskac servo acisi"></div>
+             data-i18n-aria="grip.aria" aria-label="Kiskac servo acisi"></div>
       </section>
     </div>
   </div>
 
   <!-- ================= EKSENLER ================= -->
   <section class="panel" style="margin-top:12px">
-    <div class="ph"><span class="dot"></span><h2>Eksenler</h2>
-      <span class="hint">buyuk deger = anlik konum &nbsp;|&nbsp; beyaz cizgi = hedef</span></div>
+    <div class="ph"><span class="dot"></span><h2 data-i18n="joints.title">Eksenler</h2>
+      <span class="hint" data-i18n-html="joints.hint">buyuk deger = anlik konum &nbsp;|&nbsp; beyaz cizgi = hedef</span></div>
     <div class="jstrip" id="joints"></div>
   </section>
 
   <!-- ================= KALIBRASYON ================= -->
   <section class="panel" id="calPanel" style="margin-top:12px">
-    <div class="ph"><span class="dot"></span><h2>Kalibrasyon</h2>
+    <div class="ph"><span class="dot"></span><h2 data-i18n="cal.title">Kalibrasyon</h2>
       <span class="hint" id="calSum">&mdash;</span>
       <button class="tg" id="calOpen" style="margin-left:12px">PANELI AC</button></div>
 
     <div id="calBody" style="display:none">
       <ol class="steps" id="calSteps">
-        <li class="step" id="cs0"><b>1</b><i>Kolu etkinlestir</i></li>
-        <li class="step" id="cs1"><b>2</b><i>1. pozu esle</i></li>
-        <li class="step" id="cs2"><b>3</b><i>2. pozu esle</i></li>
-        <li class="step" id="cs3"><b>4</b><i>Hesapla</i></li>
+        <li class="step" id="cs0"><b>1</b><i data-i18n="cal.step1">Kolu etkinlestir</i></li>
+        <li class="step" id="cs1"><b>2</b><i data-i18n="cal.step2">1. pozu esle</i></li>
+        <li class="step" id="cs2"><b>3</b><i data-i18n="cal.step3">2. pozu esle</i></li>
+        <li class="step" id="cs3"><b>4</b><i data-i18n="cal.step4">Hesapla</i></li>
       </ol>
 
       <div id="calRes"></div>
       <div class="guide" id="calGuide" aria-live="polite"></div>
 
-      <div class="subhead">Gercek kolu oynat
+      <div class="subhead" data-i18n-html="cal.move.head">Gercek kolu oynat
         <i>&mdash; bu kaydiricilar servoyu dogrudan surer (turuncu kolu degil)</i></div>
       <div class="calgrid" id="calSliders"></div>
 
       <details class="adv">
-        <summary>Gelismis</summary>
+        <summary data-i18n="cal.adv">Gelismis</summary>
         <div class="tools">
-          <button class="tg" id="calCap" title="Kolu dimdik yukari getirip bas: sadece referansi tasir">HIZLI: DIK YUKARI</button>
+          <button class="tg" id="calCap" data-i18n="cal.cap" data-i18n-title="cal.cap.title">HIZLI: DIK YUKARI</button>
           <button class="tg" id="calD0" title="Omuz ekseninin yonunu ters cevir">OMUZ YON</button>
           <button class="tg" id="calD1" title="Dirsek ekseninin yonunu ters cevir">DIRSEK YON</button>
           <button class="tg" id="calD2" title="Bilek ekseninin yonunu ters cevir">BILEK YON</button>
-          <button class="tg" id="calKin" title="On kol omuzla birlikte donuyorsa SERI, dunyaya gore acisini koruyorsa PARALEL">KINEMATIK: SERI</button>
-          <button class="tg" id="calGo">KISKAC TAM ACIK</button>
-          <button class="tg" id="calGc">KISKAC TAM KAPALI</button>
-          <button class="tg" id="calRst">SIFIRLA</button>
+          <button class="tg" id="calKin" data-i18n-title="cal.kin.title">KINEMATIK: SERI</button>
+          <button class="tg" id="calGo" data-i18n="cal.gripOpen">KISKAC TAM ACIK</button>
+          <button class="tg" id="calGc" data-i18n="cal.gripClose">KISKAC TAM KAPALI</button>
+          <button class="tg" id="calRst" data-i18n="cal.reset">SIFIRLA</button>
         </div>
       </details>
     </div>
   </section>
 
   <div class="cmdbar">
-    <button class="btn primary" id="btnEngage" title="Servolari kayitli pozda, kanal kanal devreye alir">ETKINLESTIR</button>
-    <button class="btn" id="btnHome" title="Kisayol: H">HOME</button>
-    <button class="btn" id="btnPark" title="Kisayol: P">PARK</button>
-    <button class="btn" id="btnSave" title="Mevcut pozu kalici hafizaya yazar">POZU KAYDET</button>
-    <button class="btn" id="btnCal" title="Adim adim kalibrasyon akisini baslatir">KALIBRASYON</button>
-    <button class="btn danger" id="btnRelease" title="Tork kesilir, kol duşebilir">SERBEST BIRAK</button>
+    <button class="btn primary" id="btnEngage" data-i18n="cmd.engage" data-i18n-title="cmd.engage.title">ETKINLESTIR</button>
+    <button class="btn" id="btnHome" data-i18n-title="cmd.home.title">HOME</button>
+    <button class="btn" id="btnPark" data-i18n-title="cmd.park.title">PARK</button>
+    <button class="btn" id="btnSave" data-i18n="cmd.save" data-i18n-title="cmd.save.title">POZU KAYDET</button>
+    <button class="btn" id="btnCal" data-i18n-title="cmd.cal.title">KALIBRASYON</button>
+    <button class="btn danger" id="btnRelease" data-i18n="cmd.release" data-i18n-title="cmd.release.title">SERBEST BIRAK</button>
     <div class="speed">
-      <span>HIZ</span>
-      <input type="range" id="spd" min="15" max="130" step="1" value="85" aria-label="Hiz olcegi">
+      <span data-i18n="cmd.speed">HIZ</span>
+      <input type="range" id="spd" min="15" max="130" step="1" value="85" data-i18n-aria="cmd.speed.aria" aria-label="Hiz olcegi">
       <b id="spdV">0.85x</b>
     </div>
   </div>
 
   <footer id="foot">&mdash;</footer>
-  <div class="keys">
+  <div class="keys" data-i18n-html="keys">
     <kbd>Space</kbd> acil stop &nbsp;·&nbsp; <kbd>H</kbd> home &nbsp;·&nbsp; <kbd>P</kbd> park
   </div>
 </div>
@@ -442,8 +443,8 @@ kbd{display:inline-block;padding:2px 6px;margin:0 1px;border-radius:5px;border:1
      yukarida surukleme yaparken de her an erisilebilir kalir. -->
 <div class="calbar" id="calActions" hidden>
   <span class="calstat" id="calStat">&mdash;</span>
-  <button class="btn" id="calQuit">CIKIS</button>
-  <button class="btn" id="calClr">ORNEKLERI SIL</button>
+  <button class="btn" id="calQuit" data-i18n="cal.quit">CIKIS</button>
+  <button class="btn" id="calClr" data-i18n="cal.clear">ORNEKLERI SIL</button>
   <button class="btn primary" id="calPrimary">&mdash;</button>
 </div>
 
@@ -455,6 +456,214 @@ const clamp = (v,a,b)=>v<a?a:(v>b?b:v);
 const norm180 = a=>{while(a>180)a-=360;while(a<=-180)a+=360;return a;};
 const el = (t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
 
+/* ===================== dil (TR / EN) =====================
+   Tum kullanici metinleri tek sozlukte. Statik isaretleme data-i18n /
+   data-i18n-html / data-i18n-title / data-i18n-aria nitelikleriyle etiketli;
+   calisma aninda degisen metinler (rozetler, sihirbaz) dogrudan L() cagirir.
+   Secim tarayicida kalir (ESP32'nin NVS'ini mesgul etmeye degmez). Hic secim
+   yoksa tarayicinin dili belirler: tr* -> Turkce, digerleri -> Ingilizce.
+   %1 yer tutucusu L(anahtar, deger) ile doldurulur. */
+const STR = {
+tr:{
+"lang.switch":"Switch to English",
+"badge.rst.title":"Son acilis sebebi / reset sayaci",
+"badge.idle":"● DURGUN", "badge.moving":"▶ HAREKET", "badge.reset":"RESET x",
+"link.connecting":"BAGLANIYOR", "link.on":"BAGLI", "link.off":"KOPUK",
+"theme.light":"&#9788; ACIK", "theme.dark":"&#9789; KOYU",
+"theme.toLight":"Acik temaya gec", "theme.toDark":"Koyu temaya gec",
+"estop":"ACIL STOP", "estop.title":"Kisayol: Space", "resume":"DEVAM ET",
+"state.0":"SERBEST", "state.1":"DEVREYE...", "state.2":"AKTIF", "state.3":"ACIL STOP",
+
+"side.title":"Kol Duzlemi — Yan Gorunus",
+"side.hint":"Eklemi veya ucu surukle",
+"side.hint.cal":"TURUNCU kolu gercek kola benzet",
+"legend.model":'<i class="sw-model"></i>model kol &mdash; yazilimin sandigi durus',
+"legend.match":'<i class="sw-match"></i>turuncu kol &mdash; senin esledigin gercek durus',
+"legend.note":"Surukleyince TURUNCU kol oynar. Gercek kolu oynatmak icin asagidaki <b>kaydiricilar</b>.",
+"tg.level":"KISKAC YATAY", "tg.elbow.up":"DIRSEK: YUKARI", "tg.elbow.down":"DIRSEK: ASAGI",
+"tg.ghost":"HEDEF IZI", "rd.tip":"UC:",
+"top.title":"Taban Donusu", "top.hint":"Cevir",
+"grip.title":"Kiskac", "grip.aria":"Kiskac servo acisi", "grip.openSuffix":"% ACIK",
+"joints.title":"Eksenler", "joints.target":"HEDEF",
+"joints.hint":"buyuk deger = anlik konum &nbsp;|&nbsp; beyaz cizgi = hedef",
+
+"jn.0":"Taban", "jn.1":"Omuz", "jn.2":"Dirsek", "jn.3":"Bilek", "jn.4":"Kiskac",
+"ax.0":"OMUZ", "ax.1":"DIRSEK", "ax.2":"BILEK",
+
+"cal.title":"Kalibrasyon", "cal.open":"PANELI AC", "cal.close":"KAPAT",
+"cal.step1":"Kolu etkinlestir", "cal.step2":"1. pozu esle",
+"cal.step3":"2. pozu esle", "cal.step4":"Hesapla",
+"cal.move.head":"Gercek kolu oynat <i>&mdash; bu kaydiricilar servoyu dogrudan surer (turuncu kolu degil)</i>",
+"cal.adv":"Gelismis",
+"cal.cap":"HIZLI: DIK YUKARI",
+"cal.cap.title":"Kolu dimdik yukari getirip bas: sadece referansi tasir",
+"cal.dir":" YON ", "cal.dir.title":"%1 ekseninin yonunu ters cevir",
+"cal.kin":"KINEMATIK: ", "cal.par":"PARALEL", "cal.ser":"SERI",
+"cal.kin.title":"On kol omuzla birlikte donuyorsa SERI, dunyaya gore acisini koruyorsa PARALEL",
+"cal.gripOpen":"KISKAC TAM ACIK", "cal.gripClose":"KISKAC TAM KAPALI", "cal.reset":"SIFIRLA",
+"cal.sum.gain":"kazanc", "cal.slider.aria":"%1 servo acisi", "cal.quit":"CIKIS", "cal.clear":"ORNEKLERI SIL", "cal.nolink":"baglanti yok",
+
+"cmd.engage":"ETKINLESTIR",
+"cmd.engage.title":"Servolari kayitli pozda, kanal kanal devreye alir",
+"cmd.home.title":"Kisayol: H", "cmd.park.title":"Kisayol: P",
+"cmd.save":"POZU KAYDET", "cmd.save.title":"Mevcut pozu kalici hafizaya yazar",
+"cmd.cal":"KALIBRASYON", "cmd.calEnd":"KALIBRASYONU BITIR",
+"cmd.cal.title":"Adim adim kalibrasyon akisini baslatir",
+"cmd.release":"SERBEST BIRAK", "cmd.release.title":"Tork kesilir, kol dusebilir",
+"cmd.speed":"HIZ", "cmd.speed.aria":"Hiz olcegi",
+"keys":"<kbd>Space</kbd> acil stop &nbsp;&middot;&nbsp; <kbd>H</kbd> home &nbsp;&middot;&nbsp; <kbd>P</kbd> park",
+"foot.uptime":"calisma suresi", "foot.boot":"acilis sebebi",
+"u.h":"s ", "u.m":"d ", "u.s":"sn",
+
+"notice.known":"Servolar <b>serbest</b> (tork yok). Ekrandaki kol son kaydedilen durusu gosteriyor. Fiziksel kol elle oynatildiysa once ekrandaki kolu ona benzet, sonra <s>ETKINLESTIR</s>. Boylece devreye alirken hicbir sicrama olmaz.",
+"notice.unknown":"<b>Kayitli poz yok.</b> Ekrandaki kolu fiziksel kolun su anki durusuna gore ayarla, sonra <s>ETKINLESTIR</s>. Aksi halde servolar devreye girerken ani hareket eder.",
+"notice.estop":"<b>Acil stop aktif.</b> Konum korunuyor, hareket komutlari yok sayiliyor. Devam etmek icin <s>DEVAM ET</s> dugmesine bas.",
+
+"confirm.release":"Servolar tamamen serbest kalacak. Kol yercekimiyle dusebilir. Devam?",
+"confirm.capture":"Gercek kol SU AN dimdik yukari mi duruyor?\n(ust kol + on kol + kiskac tek dusey cizgi)\n\nBu poz referans olarak kaydedilecek.",
+"confirm.calreset":"Kalibrasyon fabrika ayarina donecek. Emin misin?",
+
+"w.engaging.h":"ADIM 1 &mdash; DEVREYE ALINIYOR",
+"w.engaging.p":"<p>Kanallar akim piki olmasin diye <b>tek tek</b> aciliyor, bu ~1 saniye surer. Bitince kendiliginden 2. adima gecilecek.</p>",
+"w.engaging.btn":"DEVREYE ALINIYOR...", "w.engaging.stat":"kanallar aciliyor",
+"w.estop.h":"ADIM 1 &mdash; ACIL STOP AKTIF",
+"w.estop.p":"<p>Kol acil stopta; hareket komutlari yok sayiliyor. Kalibrasyona devam etmek icin once <b>DEVAM ET</b>.</p>",
+"w.estop.stat":"acil stop",
+"w.arm.h":"ADIM 1 &mdash; KOLU ETKINLESTIR",
+"w.arm.p":"<p>Servolar su an <b>serbest</b> (tork yok). Torksuz bir servoda &laquo;servo acisi&raquo; diye bir gercek yoktur &mdash; kol nereye birakildiysa oradadir &mdash; bu yuzden ornek alinamaz.</p><p>Etkinlestirmeden once ekrandaki kolu fiziksel kolun durusuna yaklastir ki devreye alirken sicrama olmasin.</p>",
+"w.arm.stat":"servolar serbest",
+"w.p1.h":"ADIM 2 &mdash; 1. POZU ESLE",
+"w.p1.p":"<p><b>A &middot;</b> Asagidaki <b>Gercek kolu oynat</b> kaydiricilariyla kolu rahat bir poza getir.</p><p><b>B &middot;</b> Yan gorunusteki <s>turuncu</s> kolu <b>surukleyerek</b> gercek kolun gozunle gordugun durusuna benzet. Turuncu kol servoyu oynatmaz; sadece &laquo;kol gercekte boyle duruyor&raquo; dedigin bilgidir.</p>",
+"w.p1.btn":"1. NOKTAYI KAYDET", "w.p1.stat":"turuncu kolu gercege benzet",
+"w.moving":"kol hareket ediyor, dursun",
+"w.p2.h":"ADIM 3 &mdash; 2. POZU ESLE",
+"w.p2.p":"<p><b>A &middot;</b> Simdi kaydiricilarla eksenleri <b>oynat</b>. 1. noktadan <b>farkli</b> bir poz gerekiyor &mdash; ayni pozdan ikinci bir ornek hicbir sey ogretmez. Eksen basina en az %1&deg; (rahat olsun diye 15&deg;+). Her kaydiricinin sagindaki sayac 1. noktadan bu yana ne kadar oynadigini gosterir.</p><p><b>B &middot;</b> Turuncu kolu yeni durusa gore <b>tekrar esle</b>, sonra kaydet.</p>",
+"w.p2.btn":"2. NOKTAYI KAYDET",
+"w.p2.same":"kol hala 1. noktadaki pozda &mdash; once oynat",
+"w.p2.ok":"<b>%1/3</b> eksen yeterince oynadi",
+"w.fit.h":"ADIM 4 &mdash; HESAPLA",
+"w.fit.p":"<p>Iki ornek hazir. Hesaplayinca her eksenin servo&nbsp;&rarr;&nbsp;aci donusumu (yon ve oran dahil) cozulup kalici hafizaya yazilir.</p>",
+"w.fit.btn":"HESAPLA & KAYDET", "w.fit.stat":"iki ornek hazir",
+"w.res.none":"Hicbir eksen guncellenmedi &mdash; eksenler iki poz arasinda yeterince oynatilmamis. Tekrar dene.",
+"w.res.saved":"Kaydedildi:", "w.res.skip":" &nbsp;&middot;&nbsp; atlandi (az oynadi): ",
+
+"rst.POWERON":"GUC VERILDI", "rst.EXT":"HARICI RESET", "rst.SW":"YAZILIM RESET",
+"rst.PANIC":"PANIC (yazilim hatasi)", "rst.INT_WDT":"WATCHDOG (int)",
+"rst.TASK_WDT":"WATCHDOG (gorev)", "rst.WDT":"WATCHDOG",
+"rst.BROWNOUT":"BROWNOUT (besleme cokmesi!)", "rst.DEEPSLEEP":"DERIN UYKU",
+"rst.SDIO":"SDIO", "rst.UNKNOWN":"BILINMIYOR"
+},
+en:{
+"lang.switch":"Turkceye gec",
+"badge.rst.title":"Last boot reason / reset counter",
+"badge.idle":"● IDLE", "badge.moving":"▶ MOVING", "badge.reset":"RESET x",
+"link.connecting":"CONNECTING", "link.on":"LINKED", "link.off":"OFFLINE",
+"theme.light":"&#9788; LIGHT", "theme.dark":"&#9789; DARK",
+"theme.toLight":"Switch to light theme", "theme.toDark":"Switch to dark theme",
+"estop":"E-STOP", "estop.title":"Shortcut: Space", "resume":"RESUME",
+"state.0":"DISARMED", "state.1":"ENGAGING...", "state.2":"ACTIVE", "state.3":"E-STOP",
+
+"side.title":"Arm Plane — Side View",
+"side.hint":"Drag a joint or the tip",
+"side.hint.cal":"Match the ORANGE arm to the real arm",
+"legend.model":'<i class="sw-model"></i>model arm &mdash; the pose the firmware assumes',
+"legend.match":'<i class="sw-match"></i>orange arm &mdash; the real pose you matched',
+"legend.note":"Dragging moves the ORANGE arm. Use the <b>sliders</b> below to move the real arm.",
+"tg.level":"GRIPPER LEVEL", "tg.elbow.up":"ELBOW: UP", "tg.elbow.down":"ELBOW: DOWN",
+"tg.ghost":"TARGET GHOST", "rd.tip":"TIP:",
+"top.title":"Base Rotation", "top.hint":"Turn",
+"grip.title":"Gripper", "grip.aria":"Gripper servo angle", "grip.openSuffix":"% OPEN",
+"joints.title":"Axes", "joints.target":"TARGET",
+"joints.hint":"large value = live position &nbsp;|&nbsp; white line = target",
+
+"jn.0":"Base", "jn.1":"Shoulder", "jn.2":"Elbow", "jn.3":"Wrist", "jn.4":"Gripper",
+"ax.0":"SHOULDER", "ax.1":"ELBOW", "ax.2":"WRIST",
+
+"cal.title":"Calibration", "cal.open":"OPEN PANEL", "cal.close":"CLOSE",
+"cal.step1":"Engage the arm", "cal.step2":"Match pose 1",
+"cal.step3":"Match pose 2", "cal.step4":"Solve",
+"cal.move.head":"Move the real arm <i>&mdash; these sliders drive the servos directly, not the orange arm</i>",
+"cal.adv":"Advanced",
+"cal.cap":"QUICK: STRAIGHT UP",
+"cal.cap.title":"Bring the arm straight up, then press: moves the reference only",
+"cal.dir":" DIR ", "cal.dir.title":"Flip the direction of the %1 axis",
+"cal.kin":"KINEMATICS: ", "cal.par":"PARALLEL", "cal.ser":"SERIAL",
+"cal.kin.title":"SERIAL if the forearm turns with the shoulder, PARALLEL if it holds its angle to the world",
+"cal.gripOpen":"GRIPPER FULLY OPEN", "cal.gripClose":"GRIPPER FULLY CLOSED", "cal.reset":"RESET",
+"cal.sum.gain":"gain", "cal.slider.aria":"%1 servo angle", "cal.quit":"EXIT", "cal.clear":"CLEAR SAMPLES", "cal.nolink":"no link",
+
+"cmd.engage":"ENGAGE",
+"cmd.engage.title":"Engages the servos at the saved pose, one channel at a time",
+"cmd.home.title":"Shortcut: H", "cmd.park.title":"Shortcut: P",
+"cmd.save":"SAVE POSE", "cmd.save.title":"Writes the current pose to persistent memory",
+"cmd.cal":"CALIBRATION", "cmd.calEnd":"END CALIBRATION",
+"cmd.cal.title":"Starts the step-by-step calibration flow",
+"cmd.release":"RELEASE", "cmd.release.title":"Torque is cut, the arm may drop",
+"cmd.speed":"SPEED", "cmd.speed.aria":"Speed scale",
+"keys":"<kbd>Space</kbd> e-stop &nbsp;&middot;&nbsp; <kbd>H</kbd> home &nbsp;&middot;&nbsp; <kbd>P</kbd> park",
+"foot.uptime":"uptime", "foot.boot":"boot reason",
+"u.h":"h ", "u.m":"m ", "u.s":"s",
+
+"notice.known":"The servos are <b>free</b> (no torque). The on-screen arm shows the last saved pose. If the physical arm was moved by hand, match the on-screen arm to it first, then <s>ENGAGE</s>. That way nothing jumps when torque comes on.",
+"notice.unknown":"<b>No saved pose.</b> Set the on-screen arm to the physical arm's current pose, then <s>ENGAGE</s>. Otherwise the servos will jerk as they engage.",
+"notice.estop":"<b>Emergency stop active.</b> Position is held, motion commands are ignored. Press <s>RESUME</s> to continue.",
+
+"confirm.release":"The servos will go completely free. The arm may drop under gravity. Continue?",
+"confirm.capture":"Is the real arm standing straight up RIGHT NOW?\n(upper arm + forearm + gripper in one vertical line)\n\nThis pose will be stored as the reference.",
+"confirm.calreset":"Calibration will return to factory defaults. Are you sure?",
+
+"w.engaging.h":"STEP 1 &mdash; ENGAGING",
+"w.engaging.p":"<p>Channels come up <b>one by one</b> so the supply never sees a current spike; this takes about a second. Step 2 opens on its own when it finishes.</p>",
+"w.engaging.btn":"ENGAGING...", "w.engaging.stat":"channels coming up",
+"w.estop.h":"STEP 1 &mdash; E-STOP ACTIVE",
+"w.estop.p":"<p>The arm is in emergency stop; motion commands are ignored. Press <b>RESUME</b> first to carry on calibrating.</p>",
+"w.estop.stat":"emergency stop",
+"w.arm.h":"STEP 1 &mdash; ENGAGE THE ARM",
+"w.arm.p":"<p>The servos are <b>free</b> right now (no torque). On a torque-free servo there is no such thing as a &laquo;servo angle&raquo; &mdash; the arm simply rests wherever it was left &mdash; so no sample can be taken.</p><p>Before engaging, bring the on-screen arm close to the pose of the physical arm so nothing jumps as torque comes on.</p>",
+"w.arm.stat":"servos are free",
+"w.p1.h":"STEP 2 &mdash; MATCH POSE 1",
+"w.p1.p":"<p><b>A &middot;</b> Use the <b>Move the real arm</b> sliders below to bring the arm into a comfortable pose.</p><p><b>B &middot;</b> <b>Drag</b> the <s>orange</s> arm in the side view until it looks like the pose you see on the real arm. The orange arm does not drive the servos; it is only you saying &laquo;the arm really looks like this&raquo;.</p>",
+"w.p1.btn":"SAVE POINT 1", "w.p1.stat":"match the orange arm to reality",
+"w.moving":"arm is moving, let it settle",
+"w.p2.h":"STEP 3 &mdash; MATCH POSE 2",
+"w.p2.p":"<p><b>A &middot;</b> Now <b>move</b> the axes with the sliders. The pose must be <b>different</b> from point 1 &mdash; a second sample from the same pose teaches nothing. At least %1&deg; per axis (15&deg;+ is comfortable). The counter beside each slider shows how far that axis has moved since point 1.</p><p><b>B &middot;</b> <b>Match</b> the orange arm to the new pose again, then save.</p>",
+"w.p2.btn":"SAVE POINT 2",
+"w.p2.same":"arm is still in the point 1 pose &mdash; move it first",
+"w.p2.ok":"<b>%1/3</b> axes moved enough",
+"w.fit.h":"STEP 4 &mdash; SOLVE",
+"w.fit.p":"<p>Both samples are ready. Solving works out the servo&nbsp;&rarr;&nbsp;angle mapping of every axis (direction and ratio included) and writes it to persistent memory.</p>",
+"w.fit.btn":"SOLVE & SAVE", "w.fit.stat":"two samples ready",
+"w.res.none":"No axis was updated &mdash; the axes did not move enough between the two poses. Try again.",
+"w.res.saved":"Saved:", "w.res.skip":" &nbsp;&middot;&nbsp; skipped (moved too little): ",
+
+"rst.POWERON":"POWER ON", "rst.EXT":"EXTERNAL RESET", "rst.SW":"SOFTWARE RESET",
+"rst.PANIC":"PANIC (firmware crash)", "rst.INT_WDT":"WATCHDOG (int)",
+"rst.TASK_WDT":"WATCHDOG (task)", "rst.WDT":"WATCHDOG",
+"rst.BROWNOUT":"BROWNOUT (supply collapsed!)", "rst.DEEPSLEEP":"DEEP SLEEP",
+"rst.SDIO":"SDIO", "rst.UNKNOWN":"UNKNOWN"
+}};
+
+const LANGKEY = "ap.lang";
+let lang = (function(){
+  let s = null; try{ s = localStorage.getItem(LANGKEY); }catch(e){}
+  if(s==="tr" || s==="en") return s;
+  return /^tr/i.test(navigator.language || "") ? "tr" : "en";
+})();
+
+/* Anahtar sozlukte yoksa TR'ye, o da yoksa anahtarin kendisine duser: yeni bir
+   metin cevirisini beklerken bile arayuz bos kutu gostermez. */
+function L(k,a){
+  const d = STR[lang] || STR.en;
+  let s = (k in d) ? d[k] : ((k in STR.tr) ? STR.tr[k] : k);
+  if(a!==undefined) s = s.replace("%1", a);
+  return s;
+}
+/* Eksen adlari: TR'de config.h'tan gelen isimler kullanilir (mekanigi yeniden
+   adlandirdiysan arayuzde de oyle gorunur), EN'de sozluk. */
+const jname = i => (lang==="tr" && CFG.j[i]) ? CFG.j[i].n : L("jn."+i);
+const axisNames = () => [L("ax.0"), L("ax.1"), L("ax.2")];
+
+
 /* ===================== durum ===================== */
 let CFG = {                                   // ESP32 baglandiginda uzerine yazilir
   fw:"ArmPilot",
@@ -465,7 +674,7 @@ let CFG = {                                   // ESP32 baglandiginda uzerine yaz
 /* Kalibrasyon: her eklem icin  eklem_acisi = wref + gain*(servo - sref)
    ESP32'den ayri bir paketle gelir ve NVS'te kalicidir.
    smp[] = kalibrasyon modunda hangi esleme ornekleri kayitli. */
-let CAL = { sref:[53.4,156.4,101.5], wref:[90,0,0], gain:[1,1,1],
+let CAL = { sref:[53.4,156.4,101.5], wref:[90,0,0], gain:[1,1,-1],
             gr:[20,95], par:0, smp:[0,0],
             s0:[90,90,90], s1:[90,90,90], fit:-1 };
 /* calFit'in bir ekseni cozebilmesi icin gereken en az servo hareketi.
@@ -476,6 +685,7 @@ let live = [90,90,90,90,60];      // robotun anlik acilari (telemetri)
 let tgt  = [90,90,90,90,60];      // robotun hedef acilari (telemetri)
 let armState = 0, moving = false, poseKnown = false;
 let ws = null, linked = false, lastSendAt = 0, dirty = false, dragging = false;
+let linkState = 0;                /* 0 baglaniyor | 1 bagli | 2 kopuk */
 let autoLevel = true, elbowUp = true, showGhost = true;
 /* Kalibrasyon modu: MQ, kullanicinin "gercek kol su an boyle duruyor" diye
    ekranda esledigi EKLEM acilari (servo degil).
@@ -486,12 +696,7 @@ let autoLevel = true, elbowUp = true, showGhost = true;
 let calMode = false, MQ = [90,0,0], matchTouched = false;
 let NET = {}, rstText = "?", lastUp = -1, resetCount = 0;
 
-const STATES = [
-  {t:"SERBEST",     c:"warn"},
-  {t:"DEVREYE...",  c:"acc"},
-  {t:"AKTIF",       c:"ok"},
-  {t:"ACIL STOP",   c:"bad"}
-];
+const STATE_CLS = ["warn","acc","ok","bad"];
 
 /* ===================== kinematik =====================
    Iki katmanli:
@@ -843,7 +1048,7 @@ function drawGrip(){
   const half = 8 + 34*openT;
   G.f1.setAttribute("d",`M130,28 L${130-half},46 L${130-half},88`);
   G.f2.setAttribute("d",`M130,28 L${130+half},46 L${130+half},88`);
-  G.txt.textContent = (openT*100).toFixed(0)+"% ACIK";
+  G.txt.textContent = (openT*100).toFixed(0)+L("grip.openSuffix");
   document.getElementById("gripHint").textContent = cmd[4].toFixed(0)+"°";
   const gr = document.getElementById("gripRange");
   if(document.activeElement!==gr) gr.value = Math.round(cmd[4]);
@@ -856,10 +1061,10 @@ function buildJoints(){
   CFG.j.forEach((j,i)=>{
     const c = document.createElement("div"); c.className="jcard";
     c.innerHTML =
-      `<div class="jn">${j.n}</div>
+      `<div class="jn">${jname(i)}</div>
        <div class="jv"><span id="a${i}">0</span><i>&deg;</i></div>
        <div class="jbar"><div class="fillc" id="f${i}"></div><div class="ghostm" id="m${i}"></div></div>
-       <div class="jt">HEDEF <b id="t${i}">0</b>&deg; &nbsp; ${j.lo}&ndash;${j.hi}</div>`;
+       <div class="jt">${L("joints.target")} <b id="t${i}">0</b>&deg; &nbsp; ${j.lo}&ndash;${j.hi}</div>`;
     box.appendChild(c);
   });
 }
@@ -879,9 +1084,9 @@ function buildCalPanel(){
   box.innerHTML = "";
   CFG.j.forEach((j,i)=>{
     const r = document.createElement("div"); r.className = "calrow";
-    r.innerHTML = `<span>${j.n}</span>
+    r.innerHTML = `<span>${jname(i)}</span>
       <input type="range" id="cr${i}" min="${j.lo}" max="${j.hi}" step="0.5"
-             aria-label="${j.n} servo acisi">
+             aria-label="${L("cal.slider.aria", jname(i))}">
       <b id="cv${i}">0</b>
       <b class="delta" id="cd${i}"></b>`;
     box.appendChild(r);
@@ -897,7 +1102,6 @@ function buildCalPanel(){
     s.addEventListener("change", pushNow);
   });
 }
-const JN = ["OMUZ","DIRSEK","BILEK"];
 
 /* Akisin hangi adiminda oldugumuz TEK bir yerden turetilir; hem serit, hem
    talimat, hem de birincil dugme bunu okur -> tutarsizlik olamaz.
@@ -915,62 +1119,41 @@ const calSpans = ()=>[0,1,2].map(i=>Math.abs(live[i+1]-CAL.s0[i]));
 function calResultHtml(){
   const m = CAL.fit;
   if(m===undefined || m<0) return "";
-  if(m===0) return '<div class="res bad">Hicbir eksen guncellenmedi &mdash; eksenler '+
-                   'iki poz arasinda yeterince oynatilmamis. Tekrar dene.</div>';
-  const done = JN.filter((n,i)=>m&(1<<i)), skip = JN.filter((n,i)=>!(m&(1<<i)));
-  return '<div class="res ok">Kaydedildi: <b>'+done.join(", ")+'</b>'+
-         (skip.length ? ' &nbsp;·&nbsp; atlandi (az oynadi): '+skip.join(", ") : '')+'</div>';
+  if(m===0) return '<div class="res bad">'+L("w.res.none")+'</div>';
+  const AX = axisNames();
+  const done = AX.filter((x,i)=>m&(1<<i)), skip = AX.filter((x,i)=>!(m&(1<<i)));
+  return '<div class="res ok">'+L("w.res.saved")+' <b>'+done.join(", ")+'</b>'+
+         (skip.length ? L("w.res.skip")+skip.join(", ") : '')+'</div>';
 }
 
 /* Aktif adimin talimati + birincil dugmenin etiketi/durumu.
    Her an ekranda TEK bir "simdi sunu yap" olsun diye tek dugmeye indirgendi. */
 function calGuideFor(st){
   if(st===0){
-    if(armState===1) return {h:"ADIM 1 — DEVREYE ALINIYOR",
-      p:"<p>Kanallar akim piki olmasin diye <b>tek tek</b> aciliyor, bu ~1 saniye surer. "+
-        "Bitince kendiliginden 2. adima gecilecek.</p>",
-      btn:"DEVREYE ALINIYOR...", dis:true, stat:"kanallar aciliyor"};
-    if(armState===3) return {h:"ADIM 1 — ACIL STOP AKTIF",
-      p:"<p>Kol acil stopta; hareket komutlari yok sayiliyor. Kalibrasyona devam etmek "+
-        "icin once <b>DEVAM ET</b>.</p>",
-      btn:"DEVAM ET", dis:false, stat:"acil stop"};
-    return {h:"ADIM 1 — KOLU ETKINLESTIR",
-      p:"<p>Servolar su an <b>serbest</b> (tork yok). Torksuz bir servoda &laquo;servo "+
-        "acisi&raquo; diye bir gercek yoktur &mdash; kol nereye birakildiysa oradadir &mdash; "+
-        "bu yuzden ornek alinamaz.</p>"+
-        "<p>Etkinlestirmeden once ekrandaki kolu fiziksel kolun durusuna yaklastir ki "+
-        "devreye alirken sicrama olmasin.</p>",
-      btn:"ETKINLESTIR", dis:false, stat:"servolar serbest"};
+    if(armState===1) return {h:L("w.engaging.h"), p:L("w.engaging.p"),
+      btn:L("w.engaging.btn"), dis:true, stat:L("w.engaging.stat")};
+    if(armState===3) return {h:L("w.estop.h"), p:L("w.estop.p"),
+      btn:L("resume"), dis:false, stat:L("w.estop.stat")};
+    return {h:L("w.arm.h"), p:L("w.arm.p"),
+      btn:L("cmd.engage"), dis:false, stat:L("w.arm.stat")};
   }
   /* Kol hareket ederken ornek almak yanlistir: kullanicinin gozuyle esledigi
-     duruş ile o an okunan servo acisi birbirini tutmaz. */
-  if(st===1) return {h:"ADIM 2 — 1. POZU ESLE",
-    p:"<p><b>A &middot;</b> Asagidaki <b>Gercek kolu oynat</b> kaydiricilariyla kolu "+
-      "rahat bir poza getir.</p>"+
-      "<p><b>B &middot;</b> Yan gorunusteki <s>turuncu</s> kolu <b>surukleyerek</b> gercek "+
-      "kolun gozunle gordugun durusuna benzet. Turuncu kol servoyu oynatmaz; sadece "+
-      "&laquo;kol gercekte boyle duruyor&raquo; dedigin bilgidir.</p>",
-    btn:"1. NOKTAYI KAYDET", dis:moving,
-    stat: moving ? "kol hareket ediyor, dursun" : "turuncu kolu gercege benzet"};
+     durus ile o an okunan servo acisi birbirini tutmaz. */
+  if(st===1) return {h:L("w.p1.h"), p:L("w.p1.p"),
+    btn:L("w.p1.btn"), dis:moving,
+    stat: moving ? L("w.moving") : L("w.p1.stat")};
 
   if(st===2){
     const sp = calSpans(), ok = sp.filter(v=>v>=CAL_MIN_SPAN).length;
-    return {h:"ADIM 3 — 2. POZU ESLE",
-      p:"<p><b>A &middot;</b> Simdi kaydiricilarla eksenleri <b>oynat</b>. 1. noktadan "+
-        "<b>farkli</b> bir poz gerekiyor &mdash; ayni pozdan ikinci bir ornek hicbir sey "+
-        "ogretmez. Eksen basina en az "+CAL_MIN_SPAN+"° (rahat olsun diye 15°+). "+
-        "Her kaydiricinin sagindaki sayac 1. noktadan bu yana ne kadar oynadigini gosterir.</p>"+
-        "<p><b>B &middot;</b> Turuncu kolu yeni duruşa gore <b>tekrar esle</b>, sonra kaydet.</p>",
-      btn:"2. NOKTAYI KAYDET",
+    return {h:L("w.p2.h"), p:L("w.p2.p", CAL_MIN_SPAN),
+      btn:L("w.p2.btn"),
       dis: moving || ok===0,
-      stat: moving  ? "kol hareket ediyor, dursun"
-          : ok===0  ? "kol hala 1. noktadaki pozda — once oynat"
-                    : "<b>"+ok+"/3</b> eksen yeterince oynadi"};
+      stat: moving ? L("w.moving")
+          : ok===0 ? L("w.p2.same")
+                   : L("w.p2.ok", ok)};
   }
-  return {h:"ADIM 4 — HESAPLA",
-    p:"<p>Iki ornek hazir. Hesaplayinca her eksenin servo&nbsp;&rarr;&nbsp;aci donusumu "+
-      "(yon ve oran dahil) cozulup kalici hafizaya yazilir.</p>",
-    btn:"HESAPLA & KAYDET", dis:false, stat:"iki ornek hazir"};
+  return {h:L("w.fit.h"), p:L("w.fit.p"),
+    btn:L("w.fit.btn"), dis:false, stat:L("w.fit.stat")};
 }
 
 /* innerHTML yazmak tarayiciya dugumleri yeniden ayristirtir. Telemetri 20 Hz
@@ -988,7 +1171,7 @@ function setHtml(id, html){
    goz onunde kalsin diye drawCal'dan ayri tutuluyor. */
 function drawCalSummary(){
   document.getElementById("calSum").textContent =
-    `sref ${CAL.sref.map(v=>v.toFixed(0)).join("/")}  ·  kazanc ${CAL.gain.map(v=>v.toFixed(2)).join("/")}  ·  ${CAL.par?"PARALEL":"SERI"}`;
+    `sref ${CAL.sref.map(v=>v.toFixed(0)).join("/")}  ·  ${L("cal.sum.gain")} ${CAL.gain.map(v=>v.toFixed(2)).join("/")}  ·  ${L(CAL.par?"cal.par":"cal.ser")}`;
 }
 
 function drawCal(){
@@ -999,11 +1182,13 @@ function drawCal(){
     document.getElementById("cv"+i).textContent = cmd[i].toFixed(0);
   });
   const mb = document.getElementById("calKin");
-  mb.textContent = "KINEMATIK: " + (CAL.par ? "PARALEL" : "SERI");
+  mb.textContent = L("cal.kin") + L(CAL.par ? "cal.par" : "cal.ser");
   mb.classList.toggle("on", !!CAL.par);
+  const AX = axisNames();
   for(let i=0;i<3;i++){
     const b = document.getElementById("calD"+i);
-    b.textContent = JN[i] + " YON " + (CAL.gain[i]>0 ? "+" : "−");
+    b.textContent = AX[i] + L("cal.dir") + (CAL.gain[i]>0 ? "+" : "−");
+    b.title = L("cal.dir.title", AX[i]);
     b.classList.toggle("on", CAL.gain[i]<0);
   }
   /* --- sihirbaz --- */
@@ -1035,7 +1220,7 @@ function drawCal(){
   const pb = document.getElementById("calPrimary");
   pb.textContent = g.btn;
   pb.disabled = g.dis || !linked;
-  setHtml("calStat", linked ? g.stat : "baglanti yok");
+  setHtml("calStat", linked ? g.stat : L("cal.nolink"));
   document.getElementById("calClr").disabled = !(CAL.smp[0] || CAL.smp[1]);
 }
 function sendK(a){ if(linked) ws.send("k "+a); }
@@ -1058,8 +1243,8 @@ function sendCmd(c){ if(linked) ws.send("c "+c); }
 
 function connect(){
   ws = new WebSocket(`ws://${location.hostname}/ws`);
-  ws.onopen = ()=>{ linked=true; setBadge("bLink","BAGLI","ok"); };
-  ws.onclose = ()=>{ linked=false; setBadge("bLink","KOPUK","bad"); setTimeout(connect,1500); };
+  ws.onopen = ()=>{ linked=true; linkState=1; setBadge("bLink",L("link.on"),"ok"); };
+  ws.onclose = ()=>{ linked=false; linkState=2; setBadge("bLink",L("link.off"),"bad"); setTimeout(connect,1500); };
   ws.onerror = ()=>{ try{ws.close();}catch(e){} };
   ws.onmessage = ev=>{
     let m; try{ m = JSON.parse(ev.data); }catch(e){ return; }
@@ -1091,7 +1276,7 @@ function connect(){
       document.getElementById("spdV").textContent = m.v.toFixed(2)+"x";
       const sp = document.getElementById("spd");
       if(document.activeElement!==sp) sp.value = Math.round(m.v*100);
-      setBadge("bMove", moving?"▶ HAREKET":"● DURGUN", moving?"acc":"");
+      setBadge("bMove", moving?L("badge.moving"):L("badge.idle"), moving?"acc":"");
       trackUptime(m.up);
       redraw();
     }
@@ -1122,38 +1307,68 @@ function trackUptime(up){
   }
   lastUp = up;
   const h = Math.floor(up/3600), mn = Math.floor(up/60)%60, sc = up%60;
-  const t = (h?h+"s ":"") + mn + "d " + String(sc).padStart(2,"0") + "sn";
+  const t = (h?h+L("u.h"):"") + mn + L("u.m") + String(sc).padStart(2,"0") + L("u.s");
   setBadge("bRst",
-    resetCount ? `⟳ RESET x${resetCount}` : `⟳ ${rstText}`,
-    resetCount ? "bad" : (/BROWNOUT|PANIC|WATCHDOG/.test(rstText) ? "warn" : ""));
+    resetCount ? `⟳ ${L("badge.reset")}${resetCount}` : `⟳ ${rstLabel()}`,
+    resetCount ? "bad" : (/BROWNOUT|PANIC|WDT/.test(rstText) ? "warn" : ""));
   document.getElementById("foot").textContent =
-    `${NET.host||"armpilot.local"}  |  ${NET.ip||"-"}  |  calisma suresi ${t}  |  acilis sebebi: ${rstText}`;
+    `${NET.host||"armpilot.local"}  |  ${NET.ip||"-"}  |  ${L("foot.uptime")} ${t}  |  ${L("foot.boot")}: ${rstLabel()}`;
 }
 
 function updateChrome(){
-  const s = STATES[armState] || STATES[0];
-  setBadge("bState", s.t, s.c);
+  const si = STATE_CLS[armState]!==undefined ? armState : 0;
+  setBadge("bState", L("state."+si), STATE_CLS[si]);
   const disarmed = armState===0, estop = armState===3;
   document.getElementById("btnEngage").disabled  = !disarmed;
   document.getElementById("btnRelease").disabled = disarmed;
   document.getElementById("btnHome").disabled = armState!==2;
   document.getElementById("btnPark").disabled = armState!==2;
-  document.getElementById("btnEstop").textContent = estop ? "DEVAM ET" : "ACIL STOP";
+  document.getElementById("btnEstop").textContent = L(estop ? "resume" : "estop");
 
   const n = document.getElementById("notice"), nt = document.getElementById("noticeTxt");
   if(disarmed){
     n.classList.add("show");
-    nt.innerHTML = poseKnown
-      ? "Servolar <b>serbest</b> (tork yok). Ekrandaki kol son kaydedilen duruşu gösteriyor. "+
-        "Fiziksel kol elle oynatıldıysa önce ekrandaki kolu ona benzet, sonra <s>ETKINLESTIR</s>. "+
-        "Böylece devreye alırken hiçbir sıçrama olmaz."
-      : "<b>Kayıtlı poz yok.</b> Ekrandaki kolu fiziksel kolun şu anki duruşuna göre ayarla, "+
-        "sonra <s>ETKINLESTIR</s>. Aksi halde servolar devreye girerken ani hareket eder.";
+    nt.innerHTML = L(poseKnown ? "notice.known" : "notice.unknown");
   }else if(estop){
     n.classList.add("show");
-    nt.innerHTML = "<b>Acil stop aktif.</b> Konum korunuyor, hareket komutları yok sayılıyor. "+
-                   "Devam etmek için <s>DEVAM ET</s>'e bas.";
+    nt.innerHTML = L("notice.estop");
   }else{ n.classList.remove("show"); }
+}
+
+/* ---- dili uygula ----
+   Statik nitelikler tek gecişte taranir; metni calisma aninda degisen dugumler
+   (rozetler, mod dugmeleri) relabel() icinde elden gecirilir. Ikisi de dil
+   degisiminde ve acilista bir kez kosar. */
+function applyLang(){
+  document.documentElement.lang = lang;
+  const set = (sel,fn)=>document.querySelectorAll(sel).forEach(fn);
+  set("[data-i18n]",       e=>{ e.textContent = L(e.getAttribute("data-i18n")); });
+  set("[data-i18n-html]",  e=>{ e.innerHTML   = L(e.getAttribute("data-i18n-html")); });
+  set("[data-i18n-title]", e=>{ e.title       = L(e.getAttribute("data-i18n-title")); });
+  set("[data-i18n-aria]",  e=>{ e.setAttribute("aria-label", L(e.getAttribute("data-i18n-aria"))); });
+  const b = document.getElementById("btnLang");
+  b.textContent = lang==="tr" ? "EN" : "TR";
+  b.title = L("lang.switch");
+  relabel();
+}
+/* Durumu olan etiketler: hangi dile gecersek gecelim dogru varyant yazilsin. */
+function relabel(){
+  setBadge("bLink", L(linkState===1 ? "link.on" : linkState===2 ? "link.off" : "link.connecting"),
+           linkState===1 ? "ok" : linkState===2 ? "bad" : "");
+  setBadge("bMove", moving ? L("badge.moving") : L("badge.idle"), moving ? "acc" : "");
+  document.getElementById("tgElbow").textContent  = L(elbowUp ? "tg.elbow.up" : "tg.elbow.down");
+  document.getElementById("btnCal").textContent   = L(calMode ? "cmd.calEnd" : "cmd.cal");
+  document.getElementById("calOpen").textContent  = L(calPanelOpen() ? "cal.close" : "cal.open");
+  document.getElementById("sideHint").textContent = L(calMode ? "side.hint.cal" : "side.hint");
+  applyTheme(theme);
+  updateChrome();
+}
+/* Firmware acilis sebebini dile bagli olmayan bir KOD olarak yollar
+   (POWERON, BROWNOUT, ...); okunur metne burada cevrilir. Tanimadigimiz bir
+   kod gelirse kodun kendisi gosterilir. */
+function rstLabel(){
+  const k = "rst."+rstText, v = L(k);
+  return v===k ? rstText : v;
 }
 
 /* ===================== kontroller ===================== */
@@ -1163,7 +1378,7 @@ const on = (id,fn)=>document.getElementById(id).addEventListener("click",ev=>{
   ev.currentTarget.blur(); fn(ev);
 });
 on("btnEngage" ,()=>sendCmd("engage"));
-on("btnRelease",()=>{ if(confirm("Servolar tamamen serbest kalacak. Kol yerçekimiyle düşebilir. Devam?")) sendCmd("release"); });
+on("btnRelease",()=>{ if(confirm(L("confirm.release"))) sendCmd("release"); });
 on("btnHome"   ,()=>sendCmd("home"));
 on("btnPark"   ,()=>sendCmd("park"));
 on("btnSave"   ,()=>sendCmd("save"));
@@ -1179,8 +1394,8 @@ function applyTheme(t){
   theme = t;
   document.documentElement.setAttribute("data-theme",t);
   const b = document.getElementById("btnTheme");
-  b.innerHTML = t==="light" ? "&#9789; KOYU" : "&#9788; ACIK";
-  b.title = t==="light" ? "Koyu temaya gec" : "Acik temaya gec";
+  b.innerHTML = L(t==="light" ? "theme.dark" : "theme.light");
+  b.title = L(t==="light" ? "theme.toDark" : "theme.toLight");
 }
 applyTheme(theme);
 on("btnTheme",()=>{
@@ -1194,8 +1409,23 @@ matchMedia("(prefers-color-scheme:light)").addEventListener("change",e=>{
   if(!s) applyTheme(e.matches ? "light" : "dark");
 });
 
+/* ---- dil ----
+   Tema gibi tarayicida saklanir; her cihaz kendi dilini secebilir. Metni
+   yeniden uretmek gereken her sey burada tazelenir: eksen kartlari ve
+   kalibrasyon kaydiricilari isim tasidigi icin bastan kurulur, setHtml
+   onbellegi de bosaltilir (yoksa ayni anahtar "degismedi" sanilirdi). */
+on("btnLang",()=>{
+  lang = (lang==="tr") ? "en" : "tr";
+  try{ localStorage.setItem(LANGKEY,lang); }catch(e){}
+  for(const k in htmlWas) delete htmlWas[k];
+  applyLang();
+  buildJoints(); buildCalPanel();
+  if(lastUp>=0) trackUptime(lastUp);
+  redraw();
+});
+
 on("tgLevel",e=>{ autoLevel=!autoLevel; e.target.classList.toggle("on",autoLevel); });
-on("tgElbow",e=>{ elbowUp=!elbowUp; e.target.textContent="DIRSEK: "+(elbowUp?"YUKARI":"ASAGI");
+on("tgElbow",e=>{ elbowUp=!elbowUp; e.target.textContent=L(elbowUp?"tg.elbow.up":"tg.elbow.down");
                   e.target.classList.toggle("on",!elbowUp); });
 on("tgGhost",e=>{ showGhost=!showGhost; e.target.classList.toggle("on",showGhost); redraw(); });
 document.getElementById("tgGhost").classList.add("on");
@@ -1224,7 +1454,7 @@ const calPanelOpen = ()=>document.getElementById("calBody").style.display !== "n
 function setCalPanel(open){
   document.getElementById("calBody").style.display = open ? "" : "none";
   const b = document.getElementById("calOpen");
-  b.textContent = open ? "KAPAT" : "PANELI AC";
+  b.textContent = L(open ? "cal.close" : "cal.open");
   b.classList.toggle("on",open);
   if(open) drawCal();
 }
@@ -1235,13 +1465,13 @@ function setCalMode(v){
 
   const cb = document.getElementById("btnCal");
   cb.classList.toggle("primary",calMode);
-  cb.textContent = calMode ? "KALIBRASYONU BITIR" : "KALIBRASYON";
+  cb.textContent = L(calMode ? "cmd.calEnd" : "cmd.cal");
 
   /* eylem cubugu ekranin altina sabitlenir: surukleme yukarida yapiliyor */
   document.getElementById("calActions").hidden = !calMode;
   document.body.classList.toggle("calon",calMode);
   document.getElementById("sideHint").textContent =
-    calMode ? "TURUNCU kolu gercek kola benzet" : "Eklemi veya ucu surukle";
+    L(calMode ? "side.hint.cal" : "side.hint");
 
   /* Talimat ve kaydiricilar burada; kullaniciyi adimin basina goturelim.
      Hareket hassasiyeti ayarli kullanicida ani kaydir. */
@@ -1254,14 +1484,14 @@ function setCalMode(v){
 }
 on("calOpen",()=>setCalPanel(!calPanelOpen()));
 on("btnCal" ,()=>setCalMode(!calMode));
-on("calCap",()=>{ if(confirm("Gercek kol SU AN dimdik yukari mi duruyor?\n(ust kol + on kol + kiskac tek dusey cizgi)\n\nBu poz referans olarak kaydedilecek.")) sendK("c"); });
+on("calCap",()=>{ if(confirm(L("confirm.capture"))) sendK("c"); });
 on("calD0",()=>sendK("d 0"));
 on("calD1",()=>sendK("d 1"));
 on("calD2",()=>sendK("d 2"));
 on("calKin",()=>sendK("m "+(CAL.par?0:1)));
 on("calGo",()=>sendK("g o"));
 on("calGc",()=>sendK("g c"));
-on("calRst",()=>{ if(confirm("Kalibrasyon fabrika ayarina donecek. Emin misin?")) sendK("r"); });
+on("calRst",()=>{ if(confirm(L("confirm.calreset"))) sendK("r"); });
 
 /* ---- kalibrasyon eylem cubugu ----
    Tek bir birincil dugme var; ne yapacagi bulundugumuz adima gore belirlenir.
@@ -1287,6 +1517,6 @@ addEventListener("keydown",e=>{
 });
 
 buildSide(); buildTop(); bindTop(); buildGrip(); buildJoints(); buildCalPanel();
-redraw(); updateChrome(); connect();
+applyLang(); redraw(); updateChrome(); connect();
 </script>
 )PAGE";

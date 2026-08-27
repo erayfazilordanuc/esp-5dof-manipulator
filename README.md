@@ -1,71 +1,60 @@
 # ESP32 5-DOF Manipulator
 
 <p align="center">
-  <img src="docs/media/full_assembly_folded.jpeg" height="400" alt="Arm in the folded pose">
-  <img src="docs/media/full_assembly.jpeg" height="400" alt="Arm reaching forward">
+  <img src="docs/media/full_assembly_folded.jpeg" height="360" alt="Arm in the folded pose">
+  <img src="docs/media/full_assembly.jpeg" height="360" alt="Arm reaching forward">
 </p>
 
 A five-axis robotic arm built from scratch: a 3D-printed structure, an ESP32 running the
 motion controller, and a control page served straight off the board over Wi-Fi. No host
-computer involved.
+computer involved. The firmware is called ArmPilot.
 
-The firmware is called ArmPilot. The arm is driven by hobby servos, which report nothing
-back — no encoder, no current sense, no way to ask one where it is. Three problems follow
-from that, and most of the design is an answer to one of them:
+The arm is driven by servos that report nothing back — no encoder, no current sense, no way
+to ask one where it is. Three problems follow, and most of the design answers one of them:
 
 - A servo that has just been powered up slams to whatever pulse width reaches it first, so
   firmware that attaches and writes an angle in the same breath makes the arm jump on boot.
-- Software PWM on a chip that is also servicing Wi-Fi interrupts jitters, which you hear as
-  buzzing and see as twitching.
+- Software PWM on a chip that is also servicing Wi-Fi interrupts jitters — audible as
+  buzzing, visible as twitching.
 - Commanding a servo straight to its target makes it accelerate as hard as it can, which on
-  a printed arm shows up as wobble on departure and overshoot on arrival.
+  a printed arm means wobble on departure and overshoot on arrival.
+
+This is an open-loop system. The firmware controls what it *commands*; whether a link ended
+up where it was told is not something the board can observe.
 
 ## Mechanics
 
 <p align="center">
-  <img src="cad/renders/assembly.png" height="300" alt="CAD assembly">
-  <img src="cad/renders/assembly_section.png" height="300" alt="Section view">
+  <img src="cad/renders/assembly.png" height="290" alt="CAD assembly">
+  <img src="cad/renders/assembly_section.png" height="290" alt="Section view">
 </p>
 
-Everything structural is printed in PETG rather than PLA, to keep flex under load down and to
-survive the heat that builds up around servos in a sealed base. The section view was the
+Structural parts are printed in PETG rather than PLA, for less flex under load and better
+tolerance of the heat that builds up around servos in a sealed base. The section view was the
 working drawing for servo clearance, cable routing and wall thickness. The base is a closed
-cylinder carrying the electronics and battery, which puts the heaviest parts at the bottom
-and keeps the arm planted when the elbow is fully extended.
+cylinder holding the electronics and battery, keeping the heaviest parts at the bottom and
+the arm planted when the elbow is fully extended.
 
-<p align="center">
-  <img src="docs/media/full_assembly_side.jpeg" height="330" alt="Printed arm, extended">
-</p>
-
-Print-ready STLs are in [`cad/print_files/`](cad/print_files/) (base housing and lid, J1–J4
-links, the parallel gripper drivetrain, and a pre-arranged build plate), editable Fusion 360
-sources in [`cad/source/`](cad/source/). Superseded v1 parts are kept in
-[`cad/print_files/v1/`](cad/print_files/v1/).
-
-The browser draws the arm from link lengths the board sends on connect, so changing the
-mechanics means editing one struct: base radius 62 mm, floor to shoulder 105 mm, shoulder to
-elbow 110 mm, elbow to wrist 95 mm, wrist to gripper tip 72 mm.
+STLs are in [`cad/print_files/`](cad/print_files/), Fusion 360 sources in
+[`cad/source/`](cad/source/). The browser draws the arm from link lengths the board sends on
+connect, so changing the mechanics means editing one struct: base radius 62 mm, floor to
+shoulder 105 mm, shoulder to elbow 110 mm, elbow to wrist 95 mm, wrist to tip 72 mm.
 
 ## Electronics
 
-<p align="center">
-  <img src="electronics/circuit_diagram.png" width="760" alt="Circuit diagram">
-</p>
+![Circuit diagram](electronics/circuit_diagram.png)
 
-All five PWM channels come from a PCA9685 at I²C address `0x40` rather than from the ESP32
-itself. Generating pulses in software while the same chip services Wi-Fi interrupts produces
-jitter you can hear; the PCA9685 makes them in dedicated hardware at 50 Hz, and the ESP32
-only writes a pulse width over the bus at 400 kHz.
+All five PWM channels come from a PCA9685 at I²C `0x40` rather than the ESP32 itself. It
+generates the pulses in hardware at 50 Hz while the ESP32 only writes a pulse width over the
+bus at 400 kHz, so whatever the CPU is busy with never reaches the servo signal.
 
-Power comes from two 18650 cells in series through a rocker switch and a single XL4015 buck
-converter, which feeds the ESP32 and the servo rail in parallel. 100 µF sits on the logic
-side and 1000 µF across the servo rail to absorb the spike a stalled motor throws back. It
-is still one rail, so a hard stall can drag the logic down with it, which is the failure
-described in [When the servos go limp](#when-the-servos-go-limp). Separating the two is the
-next revision: [`circuit_diagram_v2.png`](electronics/circuit_diagram_v2.png) gives the
-servos a dedicated 8 A XL4016E1, and
-[`circuit_diagram_v2_with_bms.png`](electronics/circuit_diagram_v2_with_bms.png) adds a 2S
-BMS and USB-C charging on top of that.
+Two 18650 cells in series feed a single XL4015 buck converter, which supplies the ESP32 and
+the servo rail in parallel — 100 µF on the logic side, 1000 µF across the servo rail. It is
+still one rail, so a hard stall can drag the logic down with it. Splitting them is the next
+revision: [`circuit_diagram_v2.png`](electronics/circuit_diagram_v2.png) gives the servos a
+dedicated 8 A XL4016E1, and
+[`circuit_diagram_v2_with_bms.png`](electronics/circuit_diagram_v2_with_bms.png) adds a 2S BMS
+and USB-C charging.
 
 | Qty | Part | Notes |
 |---|---|---|
@@ -78,22 +67,12 @@ BMS and USB-C charging on top of that.
 | 1 each | 100 µF / 1000 µF electrolytic | Logic side / servo rail |
 | 2 | Rocker / slide switch | Master and logic cut-off |
 
-Any 50 Hz hobby servo works in place of these; trim each axis with `usMin` and `usMax` in the
-joint table.
-
-`GPIO21` and `GPIO22` carry I²C to the PCA9685 `SDA`/`SCL` and `3V3` feeds its logic. `VIN`
-reaches the ESP32 through the slide switch and the 100 µF, servo `V+` comes off the same
-converter output through the 1000 µF, and grounds are common throughout.
+`GPIO21`/`GPIO22` carry I²C, `3V3` feeds the PCA9685 logic, grounds are common. Any 50 Hz
+servo works in place of these; trim each axis with `usMin`/`usMax` in the joint table.
 
 <p align="center">
-  <img src="docs/media/electronics_base.jpeg" width="430" alt="Electronics stack in the base">
-</p>
-
-The whole stack sits on the base plate and closes inside the base cylinder.
-
-<p align="center">
-  <img src="docs/media/electronics_base_front.jpeg" height="230" alt="Front view">
-  <img src="docs/media/electronics_base_top.jpeg" height="230" alt="Top view">
+  <img src="docs/media/electronics_base.jpeg" height="225" alt="Electronics stack in the base">
+  <img src="docs/media/electronics_base_top.jpeg" height="225" alt="Top view of the base">
 </p>
 
 ## Motion control
@@ -112,78 +91,22 @@ velocity
    +---/------------------\--> time
 ```
 
-The asymmetry matters: jerk is limited only while accelerating, while braking keeps full
-acceleration authority. That is what stops the axis sailing past its target. Measured
-overshoot is 0.0000° across all five axes, and retargeting mid-move continues from the
-current velocity rather than restarting.
+The asymmetry is the point: jerk is limited only while accelerating, while braking keeps full
+acceleration authority. Velocity is capped at `sqrt(2*a*distance)` from the target, so the
+commanded setpoint arrives and stops rather than sailing past — a property of the generator,
+not a correction applied afterwards. What the physical link then does is unobservable, and
+none of this compensates for disturbance or a stalled servo.
 
-Measured on a 90° move at the default 0.85x scale:
+Profile stepping runs in its own FreeRTOS task, pinned to core 1 at priority 3 with a fixed
+period. Telemetry and WebSocket work happen in the lower-priority Arduino loop, so a busy
+network is what gets preempted — the control step runs on time and the web work waits.
 
-| Axis | Duration | Peak velocity | Travelled in first 100 ms |
-|---|---|---|---|
-| Base | 3.52 s | 34 °/s | 2 % |
-| Shoulder | 4.39 s | 25 °/s | 2 % |
-| Elbow | 2.27 s | 60 °/s | 3 % |
-| Wrist | 1.82 s | 81 °/s | 4 % |
-| Gripper | 1.41 s | 111 °/s | 5 % |
-
-Base and shoulder are deliberately slowest, carrying the most inertia and load. The speed
-slider scales the set between 0.15x and 1.30x; acceleration and jerk scale with it (as `s²`
-and `s³`) so a slow move is the same move stretched out, not a different one. Per-axis
-limits live in [`config.cpp`](firmware/src/config.cpp):
-
-| Axis | Channel | Range | Home | Park | v max | a max | jerk max |
-|---|---|---|---|---|---|---|---|
-| Base | 0 | 0–180° | 90° | 90° | 40 °/s | 55 °/s² | 300 °/s³ |
-| Shoulder | 1 | 5–175° | 90° | 125° | 30 °/s | 42 °/s² | 220 °/s³ |
-| Elbow | 2 | 0–180° | 90° | 155° | 70 °/s | 110 °/s² | 700 °/s³ |
-| Wrist | 3 | 0–180° | 90° | 120° | 95 °/s | 160 °/s² | 1000 °/s³ |
-| Gripper | 4 | 0–180° | 60° | 60° | 130 °/s | 260 °/s² | 1800 °/s³ |
-
-Profile generation runs in its own FreeRTOS task pinned to core 1 at priority 3 with a fixed
-period, while networking runs on the other core. Saturating the WebSocket does not change how
-the arm moves, which is why the dual-core part was worth it.
-
-## Starting up without the jump
-
-At boot ArmPilot emits no pulses at all. `ArmController::begin()` puts every PCA9685 channel
-into full-off, the servos stay torque-free, and the arm physically cannot move until asked.
-
-Two seconds after motion settles the joint angles are written to NVS. On the next boot they
-are read back and shown as the assumed pose, and pressing engage writes that *stored* angle
-to each channel in turn, 220 ms apart. The commanded angle already matches the physical one
-so nothing moves, and staggering the channels keeps the inrush from pulling the supply down.
-If the arm was moved by hand while off, drag the on-screen arm to match reality first.
-
-What this cannot fix: if the ESP32 resets, outputs shut off and the arm drops under its own
-weight. Hobby servos have no brake. Wiring `/OE` to a GPIO lets the firmware kill outputs in
-hardware too, but it does not hold the arm up.
-
-## Calibrating the joints
-
-Servo horns are splined, so they mount at whatever offset lines up during assembly. "Servo
-0° means the link is straight" is never true out of the box, and with gearing one degree of
-servo is not one degree of link. Each joint carries a linear model instead of an assumption:
-
-```
-joint_angle = wRef + gain * (servo_angle - sRef)
-```
-
-`sRef` and `wRef` are a matched pair of servo angle and real joint angle at one pose. `gain`
-is joint degrees per servo degree: its sign encodes direction, so a reversed mount comes out
-negative, and its magnitude carries the ratio. Direct drive gives ±1.
-
-Two unknowns need two samples. In the browser you engage the arm, move the real arm with the
-panel sliders, drag the on-screen arm until it matches, and save two clearly different poses.
-The firmware solves the fit and writes it to NVS.
-
-The guardrails are where most of the work went. An axis that moved less than 8° between
-samples is skipped and keeps its old value, since a second sample from the same pose teaches
-nothing. Samples are rejected while the arm is moving or disarmed, because with no torque
-there is no meaningful servo angle to record. Fits outside a gain of 0.05 to 20 are rejected
-as physically impossible, which catches swapped channels before they become motion.
+**[docs/motion-control.md](docs/motion-control.md)** — per-axis limits, profile output for a
+90° move, the `s`/`s²`/`s³` speed-scaling law, task layout.
 
 ## The control page
+
+![ArmPilot control page](docs/media/web.png)
 
 The UI is a single page held in flash as `PROGMEM`, so there is no filesystem image to build
 or upload. It gives two 2D views instead of five sliders, because sliders make you think in
@@ -191,10 +114,22 @@ servo angles and the shape of the robot is what you care about: a side view wher
 the end point solves shoulder and elbow together through inverse kinematics, and a top view
 dial for base rotation.
 
-The solid arm is the real one, drawn from telemetry at 20 Hz. A dashed ghost shows the
-commanded pose and fades as the arm converges, which makes it obvious whether the arm is
-lagging or has stopped following. `Space` is emergency stop and resume, `H` is home, `P` is
-park.
+The solid arm is the setpoint the profile generator is commanding, streamed at 20 Hz; the
+dashed ghost is the target it is working toward, fading as the two converge. Both come from
+the firmware's model rather than from the arm itself, so the gap between them is how much of
+the commanded move is still outstanding, not a tracking error. `Space` is emergency stop and
+resume, `H` is home, `P` is park. English and Turkish come from one dictionary and the theme
+follows the OS until overridden; both choices stay in `localStorage`, which is why the boot
+reason arrives from the board as a code (`BROWNOUT`, `PANIC`, …) and is put into words in the
+browser.
+
+**Calibration** lives in the same page. Splined horns mount at whatever tooth lines up during
+assembly, so each joint carries a linear map — `joint = wRef + gain * (servo - sRef)` —
+instead of an assumed zero, and the sign of `gain` carries direction, so the reversed wrist
+mount is just −1. Two unknowns need two samples: engage, pose the arm, drag the on-screen arm
+to match, save two clearly different poses. The firmware fits and stores them, and rejects
+fits it cannot trust, because a bad fit turns into motion. See
+**[docs/calibration.md](docs/calibration.md)**.
 
 Commands go over a WebSocket at `/ws` as plain text:
 
@@ -203,59 +138,76 @@ a <a0> <a1> <a2> <a3> <a4>   set all axes
 j <id> <deg>                 set one axis
 s <scale>                    speed scale, 0.15 to 1.30
 c engage|release|home|park|stop|resume|save
-k ...                        calibration: capture, solve, flip direction, reset
+k ...                        calibration: sample, solve, flip direction, reset
 ```
 
-The board answers with a `hello` frame carrying geometry, joint limits, IP and the reason for
-the last reset, a `cal` frame re-broadcast whenever calibration changes, and a 20 Hz state
-packet.
+The board answers with a `hello` frame (geometry, joint limits, IP, last reset code), a `cal`
+frame whenever calibration changes, and a 20 Hz state packet.
+
+## Starting up without the jump
+
+At boot ArmPilot emits no pulses at all: `ArmController::begin()` puts every PCA9685 channel
+into full-off, so the servos stay torque-free and the arm cannot move until asked.
+
+Two seconds after motion settles the joint angles go to NVS. On the next boot they are read
+back as the assumed pose, and pressing engage writes that *stored* angle to each channel in
+turn, 220 ms apart: the commanded angle already matches the physical one so nothing moves,
+and staggering keeps the inrush from pulling the supply down. With no stored pose — or if the
+arm was moved by hand while off — the page says so and asks you to match the on-screen arm to
+the real one first.
+
+What this cannot fix: if the ESP32 resets, outputs shut off and the arm drops under its own
+weight. The servos have no brake. Wiring `/OE` to a GPIO lets the firmware kill outputs in
+hardware too, but it does not hold the arm up.
 
 ## Build and flash
 
-You need [PlatformIO](https://platformio.org/). Dependencies resolve from `platformio.ini`.
+You need [PlatformIO](https://platformio.org/); dependencies resolve from `platformio.ini`.
 
 ```bash
 git clone https://github.com/erayfazilordanuc/esp-5dof-manipulator.git
 cd esp-5dof-manipulator/firmware
 
 # Wi-Fi credentials are not kept in version control
-cp include/secrets_example.h include/secrets.h
-# then edit include/secrets.h and fill in WIFI_SSID and WIFI_PASSWORD
+cp include/secrets_example.h include/secrets.h   # then fill in SSID and password
 
 pio run              # build
 pio run -t upload    # flash
 pio device monitor   # the IP address is printed here
 ```
 
-If the network is unreachable the board brings up its own access point, `ArmPilot-AP` with
-password `armpilot1`, at `http://192.168.4.1`. On your own network `http://armpilot.local`
-works over mDNS. The servos come up free by design; press engage in the UI to energise them.
+If the network is unreachable the board brings up its own access point, `ArmPilot-AP` /
+`armpilot1`, at `http://192.168.4.1`; on your own network `http://armpilot.local` works over
+mDNS. The servos come up free by design — press engage in the UI to energise them.
 
-Tuning is split between two files. `firmware/include/config.h` holds the AP fallback, I²C
-pins, control rate and boot behaviour. `firmware/src/config.cpp` holds the joint table, link
-geometry and calibration defaults. Both are pushed to the browser on connect, so there is
-nothing to keep in sync on the UI side.
+`python tools/preview.py` extracts the embedded page and serves it on `localhost`, so UI work
+does not need a flash cycle. Tuning is split between `firmware/include/config.h` (AP fallback,
+I²C pins, control rate, boot behaviour) and `firmware/src/config.cpp` (joint table, link
+geometry, calibration defaults); both are pushed to the browser on connect.
 
 ## When the servos go limp
 
 Almost always the ESP32 has reset: outputs shut off, torque disappears, the arm sags. The
-cause is captured on boot and shown on serial and in the UI as `BROWNOUT`, `PANIC` or
-`WATCHDOG`. Brownout is the usual answer on a shared rail: give the servos their own 5–6 V
-supply, tie the grounds together, and keep 1000 µF across the rail. `ENGAGE_STAGGER_MS`
-already spreads out the start-up current, but peak current during a move is a question of
-how much the supply can deliver.
+cause is captured on boot and reported as `BROWNOUT`, `PANIC` or `WATCHDOG`, and the page
+also watches uptime — if it runs backwards while you are connected, the board restarted under
+you and the badge says so. Brownout is the usual answer on a shared rail: give the servos
+their own 5–6 V supply, tie the grounds together, keep 1000 µF across the rail.
+`ENGAGE_STAGGER_MS` spreads out the start-up current, but peak current during a move is a
+question of what the supply can deliver.
 
 ## Repository layout
 
 ```
 cad/          print_files/ (STLs + v1 archive), renders/, source/ (Fusion 360)
-docs/media/   Build photographs
+docs/         motion-control.md, calibration.md, media/
 electronics/  Circuit diagrams, plus legacy/ for the v1 schematic
-firmware/     include/, src/, and legacy/ experiments excluded from the build
+firmware/     include/, src/, tools/preview.py, legacy/ (excluded from the build)
 ```
 
 ## What's next
 
-This firmware is meant to become the low-level hardware interface for an autonomous setup:
-micro-ROS to bridge the board to a host, a URDF model accurate enough to simulate against,
-and MoveIt 2 doing inverse kinematics and trajectory planning off-board.
+Closing the loop is the gap worth naming: an IMU on the forearm, or angles pulled from
+high-frame-rate video, would make the pose the arm actually reaches measurable and turn the
+profile numbers from commanded into observed. Past that, this firmware is meant to become the
+low-level hardware interface for an autonomous setup — micro-ROS bridging the board to a host,
+a URDF model to simulate against, and MoveIt 2 planning off-board.

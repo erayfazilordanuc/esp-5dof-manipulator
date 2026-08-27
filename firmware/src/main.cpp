@@ -61,7 +61,26 @@ static const char *resetReasonText()
     default:               return "BILINMIYOR";
     }
 }
-static const char *g_resetReason = "?";
+/* Arayuz iki dilli oldugu icin sebep JSON'a METIN degil KOD olarak girer;
+   okunur karsiligini web_ui.cpp'deki sozluk secili dilde yazar. */
+static const char *resetReasonCode()
+{
+    switch (esp_reset_reason())
+    {
+    case ESP_RST_POWERON:  return "POWERON";
+    case ESP_RST_EXT:      return "EXT";
+    case ESP_RST_SW:       return "SW";
+    case ESP_RST_PANIC:    return "PANIC";
+    case ESP_RST_INT_WDT:  return "INT_WDT";
+    case ESP_RST_TASK_WDT: return "TASK_WDT";
+    case ESP_RST_WDT:      return "WDT";
+    case ESP_RST_BROWNOUT: return "BROWNOUT";
+    case ESP_RST_DEEPSLEEP:return "DEEPSLEEP";
+    case ESP_RST_SDIO:     return "SDIO";
+    default:               return "UNKNOWN";
+    }
+}
+static const char *g_resetReason = "UNKNOWN";
 
 // ===========================================================================
 //  Telemetri
@@ -391,9 +410,9 @@ void setup()
 {
     Serial.begin(115200);
     delay(200);
-    g_resetReason = resetReasonText();
+    g_resetReason = resetReasonCode();
     Serial.printf("\n\n=== %s v%s ===\n", FW_NAME, FW_VERSION);
-    Serial.printf("[SYS] Onceki reset sebebi: %s\n", g_resetReason);
+    Serial.printf("[SYS] Onceki reset sebebi: %s\n", resetReasonText());
     if (esp_reset_reason() == ESP_RST_BROWNOUT)
         Serial.println("[SYS] !! Besleme cokuyor. Servolara AYRI 5-6V kaynak ver, "
                        "GND'leri birlestir, servo hattina 1000uF kondansator koy.");
